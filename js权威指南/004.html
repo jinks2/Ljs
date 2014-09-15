@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	/*functional and nofunctional*/
+	function nofunctional() {
+		var data = [1,1,3,5,5];
+		var total = 0;
+		for(var i=0; i<data.length; i++) {
+			total += data[i];
+		}
+		var mean = total/data.length;
+		total = 0;
+		for(var i=0; i<data.length; i++) {
+			var dev = data[i] - mean;
+			total += dev*dev;
+		}
+		var std = Math.sqrt(total/(data.length-1));
+		return std;
+	}
+	function functional() {
+		var sum = function(x,y) {
+			return x+y;
+		}
+		var square = function(x) {
+			return x*x;
+		}
+		var data = [1,1,3,5,5];
+		var mean = data.reduce(sum)/data.length;/*reduce*/
+		var dev = data.map(function(x) {/*map*/
+			return mean-x;
+		})
+		var std = Math.sqrt(dev.map(square).reduce(sum)/(data.length-1));
+		return std; 
+	}
+
+
+
+	/*map*/
+	var map = Array.prototype.map ? 
+	function(a,f) {return a.map(f)} :
+	function(a,f) {
+		var result = [];
+		for(var i=0; i<a.length; i++) {
+			if(i in a) {
+				result[i] =  f.call(null,a[i],i,a);/**/
+			}
+		}
+		return result;
+	}
+
+
+
+	/*reduce*/
+	var reduce = Array.prototype.reduce ? 
+	function(a,f,inital) {
+		if(arguments.length>2) return a.reduce(f,inital);
+		else return a.reduce(f);
+	}:
+	function(a,f,inital) {
+		var i = 0,len = a.length,accumulator;
+		if(arguments.length>2) accumulator = inital;
+		else{
+			if(0 === len) throw TypeError();
+			while(i < len) {
+				if(i in a) {
+					accumulator =a[i++];
+					break;
+				} else i++;
+			}
+			if(i === len) throw TypeError();
+		}
+
+		while(i < len) {
+			if(i in a) accumulator = f.call(undefined,accumulator,a[i],i,a);/**/
+			i++;
+		}
+		return accumulator;
+	}
+
+
+		/*true->false*/
+ 	function not(f){
+ 		return function() {
+ 			var result = f.apply(this,arguments)//[]
+ 			return !result;
+ 		}
+ 	}
+ 	//not(f)(a,b);
+
+
+	/*factory module*/
+	range.methods = {
+		include: function(x) {
+			return this.from <= x && this.to >= x;
+		},
+		foreach: function(f) {
+			for(var x=Math.ceil(this.from); x<=this.to; x++) {
+				f(x);
+			}
+		},
+		toString: function() {
+			return "(" + this.from +"..."+this.to+")";
+		}
+	};
+	 function range(from,to) {
+	 	var r = Object.create(range.methods);
+	 	r.from = from;
+	 	r.to = to;
+	 	return r;
+	 }
+	//var example = range(1,5);
+
+
+
+	/*curstructor module*/
+	Range.prototype = {
+		include: function(x) {
+			return this.from <= x && this.to >= x;
+		},
+		foreach: function(f) {
+			for(var x=Math.ceil(this.from); x<=this.to; x++) {
+				f(x);
+			}
+		},
+		toString: function() {
+			return "(" + this.from +"..."+this.to+")";
+		},
+		equals: function(that) {
+			if(null === that) return false;
+			if(Range !== that.constructor) return false;
+			return that.from === this.from && that.to === this.to;
+		}
+	};
+	function Range(from,to) {
+		this.from = from;
+		this.to = to;
+	};
+	//var example = new Range(1,5);
+
+
+	/*add method to prototype*/
+	Number.prototype.times = function(f) {
+		var n = Number(this);
+		for(var i=0; i<n; i++) f.call(this,i);
+	}
+	var f = function() {console.log(arguments)};
+	//use: var a = 4;a.times() ;
+	//not do: 4.times();
+
+
+
+	/*for Object*/
+	function Set() {
+		this.value = {};
+		this.n = 0;
+		this.add.apply(this,arguments);
+	};
+	Set.prototype.add = function() {
+		for(var i=0; i<arguments.length; i++) {
+			var val = arguments[i];
+			var str = Set._v2s(val);
+			if(!this.value.hasOwnProperty(str)) {
+				this.value[str] = val;
+				this.n++;
+			}
+		}
+		return this;
+	}
+	Set.prototype.remove = function() {
+		for(var i=0; i<arguments.length;i++) {
+			var str = Set._v2s(arguments[i]);
+			if(this.value.hasOwnProperty(str)) {
+				delete this.value[str];
+				this.n--;
+			}
+		}
+		return this;
+	}
+	Set.prototype.contains = function(value) {
+		return this.value.hasOwnProperty(value);
+	}
+	Set.prototype.size = function() {
+		return this.n;
+	}
+	Set.prototype.foreach = function(f,context) {
+		for(var i in this.value) {
+			if(this.value.hasOwnProperty(i)) {
+				f.call(context,this.value[i]);
+			}
+		}
+	}
+	Set.prototype.equals = function(that) {
+		if(that === this) return true;
+		if(!(that instanceof Set)) return false;
+		if(this.size() !== that.size()) return false;
+		try{
+			this.foreach(function(v) {
+				if(!that.contains(v)) throw false;
+			});
+			return true;
+		} catch(e) {
+			if(false === e) return false;
+			throw e;
+		}
+	}
+	Set._v2s = function(val) {
+		switch(val) {
+			case undefined : return "u";
+			case null : return "n";
+			case true : return "t";
+			case false : return "f";
+			default: switch(typeof val) {
+				case  "number" : return "#" + val;
+				case  "string" : return '"' + val+'"';
+				default: return "@" +objected(val);
+			}
+		}
+	}
+	function objected(o) {
+		var prop = "|**object**|";
+		if(!o.hasOwnProperty(prop))
+			o[prop] = Set._v2s.next++;
+		return o[prop];
+	}
+
+
+
+	</script>
+
+</body>
+</html>
