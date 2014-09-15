@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	/*find all the index of match value in array*/ 
+	function findAll(a,x) {
+		var i = 0, result = [];
+		while(i < a.length) {
+			i = a.indexOf(x,i);
+			if(-1 === i) break;
+			result.push(i++);
+		}
+		return result;
+	}
+
+
+/**/
+function isArray(o) {
+	return "object" === typeof o &&
+	"[object Array]" === Object.prototype.toString.call(o);
+}
+
+/*make object like array*/
+function objectArray(n) {
+	var a = {},i=0,total=0;
+	while(i<n) {
+	 a[i] = i*i;
+	 total += a[i];
+	 i++;
+	}
+	a.length = i;
+	a.total = total;
+	return a;
+}
+
+
+/*use method of array*/
+var a ={'0':'a','1':'b','2':'c','length':3};
+Array.prototype.join.call(a,'+');//'a+b+c'
+Array.prototype.slice.call(a,0); //['a','b'.'c'];
+
+function  func1() {
+	Array.prototype.push.call(arguments,"c");
+	return arguments;
+};
+function func2() {
+	var arguments = Array.prototype.slice.call(arguments,0);
+	arguments.push("c");
+	return arguments;
+}
+
+
+/*nest function*/
+function hypo(a,b) {
+	var square = function(x) {
+		return x*x;
+	}
+	return Math.sqrt(square(a) + square(b));
+}
+
+/**/
+
+var o = {
+	m : function() {
+		var self = this;
+		console.log(this === o);
+		(function f() {
+			console.log(this === o);
+			console.log(self === o);
+		})();
+	}
+}
+
+/**/
+function getPropertyName(o) {
+	var a = [];
+	for(var prop in o) {
+		a.push(prop);
+	}
+	return a;
+}
+
+
+/**/
+function max() {
+	var max = -Infinity;
+	for(var i=0; i<arguments.length; i++) {
+		if(arguments[i]>max) max = arguments[i];
+	}
+	return max;
+}
+
+/**/
+function add(a) {
+	return add.num + a;
+}
+//add.num = 2;
+//add(1)
+
+/**/
+function factorial(n) {
+	if(isFinite(n) && n>0 && n === Math.round(n)) {
+	 if(!(n in factorial)) factorial[n] = n * factorial(n-1);
+	 return factorial[n];
+	} 
+	else return NaN;
+}
+factorial[1] = 1;
+
+/**/
+var scope = 'global';
+function chech() {
+   var scope = 'loacal';
+   function f() {return scope};
+   return f;
+}
+//chech()(); //'lacal';
+
+
+
+/*share some value*/
+function counter() {
+	var n = 0;
+	return {
+		count: function() {return ++n},
+		reset: function() {n = 0}
+	}
+}
+var a = counter();
+a.count();//1
+a.count();//2
+a.reset();
+a.count();//1
+
+
+/**/
+function addPrivatePrototype(o,name,predicate) {
+	var value;
+	o["get" + name] = function() {return value};
+	o["set" + name] = function(v) {
+		if(predicate && !predicate(v)) {
+			throw Error("set" + name +":invalue" + v);
+		} else {
+			value = v;
+		}
+	}
+}
+/**
+var o = {};
+addPrivatePrototype(o,'Name',function(x) {return typeof x == 'string'});
+*/
+
+/**/
+function constfuncs(v) {return function() {return v}};
+var funcs = [];
+for(var i=0; i<10; i++) {
+	funcs[i] = constfuncs(i);
+}
+
+//funcs[1]();
+//funcs[9]();
+
+/**/
+function f(y) {return this.x + y};
+var o = {x:1};
+var g = f.bind(o);
+//g(2);
+
+function sum(x,y) {
+	return x+y;
+}
+var succ = sum.bind(null,1); //null->x ,1->y
+//succ(10);
+
+function f(y,z) {return this.x + y + z};
+var g = f.bind({x:1},2);
+//g(3); 
+
+
+	</script>
+</body>
+</html>

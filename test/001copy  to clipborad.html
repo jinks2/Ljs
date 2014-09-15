@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<script src="../lib/jquery-1.9.0.min.js"></script>
+	<script src="../lib/ZeroClipboard.min.js"></script>
+	<script src="../lib/bootstrap.min.js"></script>
+</head>
+<body>
+    <button type="button" id="copyBtn" class="btn btn-default">copy</button>
+
+    <p id="copyLink">this is a example of copy link</p>
+
+
+    <script>
+    /*it dose't work locally*/
+   	  var clip = new ZeroClipboard($("#copyBtn"));
+
+   	  clip.setText($("#copyLink").text());
+
+   	  $("#copyBtn").click(function() {
+   	  	console.log(0);
+   	    clip.setText($("#copyLink").text());
+   	    $(this).parent().siblings(".tooltip").children(".tooltip-inner").text("Copied");
+   	  });
+    </script>
+</body>
+</html>

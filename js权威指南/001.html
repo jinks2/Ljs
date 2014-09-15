@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+<script>
+ /*copy a array*/
+ var a1 = [1,2,3];
+ var b1 = [4];
+ var c1 = {};
+ 
+ var checkAll = function(args) {
+ 	var args = Array.prototype.slice.call(args); //get Array
+    var checkArray = function(target) {
+ 	if(!(Object.prototype.toString.call(target) === "[object Array]"))   //check type
+    	throw new Error("please enter Array!");
+    }
+   	Array.prototype.forEach.call(args,function(entry) {
+          checkArray(entry);
+    }) 
+ }
+ var copyArray = function(target,empty) {
+    checkAll(arguments);
+    empty = empty.concat(target);
+    return empty;
+ }
+
+b1 = copyArray(a1,b1);
+console.log(b1);
+//c1 = copyArray(a1,c1);
+//console.log(c1);
+
+
+
+/*figure out what kind of type
+
+*typeof: cheif advantage is speed
+ 
+*instanceof: it's good for checking whether something is a specific kind of object;
+* var a = new A(); a instanceof A;
+
+*Object.prototype.toString.call():not good for our own constructor functions,all we get '[object *Object]';
+*/
+</script>
+
+
+
+<h1 id="style">this is the text for 'style'</h1>
+<script>
+/*use style*/
+    var styleH1 = document.getElementById("style");
+    styleH1.style.color = "red";
+
+
+/*compare array*/
+    function equalArray(arr1,arr2) {
+        if(arr1.length !== arr2.length) return false;
+        for(var i=0; i< arr1.length; i++) {
+            if(arr1[i] !== arr2[i])
+                return false;
+        }
+        return true;
+    }
+
+
+/**/
+var n = 15;
+binary_string = n.toString(2);
+octal_string = "0" + n.toString(8);
+hex_string = "0x" + n.toString(16);
+console.log(binary_string,octal_string,hex_string);
+
+
+/*
+1 + {} //1[object Object]
+2 + null //2
+3 + undefined //NaN
+*/
+
+
+/*delete*/
+var o = {x:1,y:2};
+console.log("x" in o);
+delete o.x;
+console.log("x" in o);
+
+/*empty;set array 0*/
+var a = [1,2,3,4,5];
+for(var i = 0; i <a.length; a[i++] = 0)/*empty*/;
+console.log(a);
+
+/*printArray*/
+function printArray(arr) {
+    var len = arr.length,i = 0;
+    if(len === 0) {
+        console.log("empty array");
+    } else {
+        do{
+            console.log(arr[i]);
+        }while(i++ < len-1);
+    }
+}
+
+/**/
+function dofor(a,b) {
+    var i = a,j = b,sum=0;
+    var z = i>j ? i : j;    
+    for(; i<=z;i++,j--) {
+        console.log(i+"*"+j);
+        sum += i*j;
+    }
+    console.log(sum);
+}
+
+
+
+/*factorial*/
+
+function factorial(n) {
+    if(n < 0)  {
+        throw new Error("n can not be nagative!")
+    } else if(n === 0) {
+        return 0;
+    } else {
+        for(var f=1; n>1; f *=n,n--)/*empty*/;
+        return f;    
+    }
+}
+try{
+    var n = Number(prompt("please enter a positive number"));
+    var f = factorial(n);
+    alert(n + "!= " +f);
+}catch(ex) {
+    alert(ex);
+}
+
+
+
+/**/
+str = "abcd/ef"; //delete 'ef'
+str1 = str.replace("/ef","");
+str2 = str.replace(/\/ef/,"");
+str3 = str.split("/ef").join();
+str4 = str.substring(0,str.indexOf("/ef"));
+console.log(str1,str2,str3,str4);
+</script>
+
+
+
+
+</body>
+</html>

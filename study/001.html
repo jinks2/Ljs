@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	.outer{
+		width: 400px;
+		text-align: center;
+	}
+	 .inner{
+	 	width: 100px;
+	 	height:100px; 
+	 	background-color: black;
+	 }
+	 .inner,.outer{
+	 		margin: 20px auto;
+	 }
+	</style>
+</head>
+<body>
+<div class="outer">
+	<input class="text1" type="button" value="width">
+	<input class="text1" type="button" value="height">
+	<input class="text1" type="button" value="color">
+	<input class="text1" type="button" value="hidden">
+	<input class="text1" type="button" value="reset">
+</div>
+<div class="inner" id="divTarget1">
+	
+</div>
+<script>
+	function addLoadEvent(func) {
+		var oldLoad = window.onload;
+		if( typeof oldLoad === "function") {
+			window.onload = function() {
+				oldLoad();
+				func();
+			} 
+		}else {
+				window.onload = func;
+		}
+	} 
+
+	function text1() {
+		var changeControl1 = function(target,attr,value) {
+			target.style[attr] = value;
+	};
+		var elem = document.getElementsByClassName("text1");
+		var attr = ["width","height","backgroundColor","visibility","cssText"];
+		var value = ["200px","200px","red","hidden"," "];
+		var target = document.getElementById("divTarget1");
+		for(var i=0; i < elem.length ; i++) {
+			elem[i].index = i;  //must use this to remenber the index
+			elem[i].onclick = function() {
+		 changeControl1(target,attr[this.index],value[this.index]);
+		}
+	 }
+	}
+		
+	addLoadEvent(text1);	
+
+</script>
+<div class="outer">
+	<input class="text2" type="button" value="width">
+	<input class="text2" type="button" value="height">
+	<input class="text2" type="button" value="color">
+	<input class="text2" type="button" value="hidden">
+</div>
+<div class="inner" id="divTarget2">
+
+</div>
+
+<script>
+	function text2() {
+		var elem = document.getElementsByClassName("text2");
+		var attr = ["width","height","backgroundColor","visibility"];
+		var value = ["200px","200px","red","hidden"];
+		var target = document.getElementById("divTarget2");
+		var tstyle = target.style;
+		var reset = [];
+		for(var i=0; i<elem.length; i++) {
+			reset[i] = tstyle[attr[i]];
+			elem[i].index = i;
+			elem[i].onclick = function() {
+				var index = this.index;
+				if(this.value !== "reset") {
+				reset[i] = this.value; // i = 4
+			  }
+				changeControl2(target,attr[index],value[index],index);
+			}
+		var changeControl2 = function(target,attr,value,index) {
+			elem[index].value = elem[index].value === "reset" ?  reset[i] : "reset";
+			target.style[attr] = elem[index].value === "reset" ?  value : reset[index];
+	  };
+		}
+	}	
+	addLoadEvent(text2);
+</script>
+</body>
+</html>

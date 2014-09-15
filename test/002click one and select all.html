@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<body>
+	<p id="example" onclick="selectText('example')">this is the example of 'click one to select all'</p>
+	<script>
+     var selectText = function(containerid) {
+       if (document.selection) {
+         var range = document.body.createTextRange();
+         range.moveToElementText(document.getElementById(containerid));
+         range.select();
+       } else if (window.getSelection) {
+         var range = document.createRange();
+         range.selectNode(document.getElementById(containerid));
+         window.getSelection().addRange(range);
+       }
+     };
+	</script>
+</body>
+</html>

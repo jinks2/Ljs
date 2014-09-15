@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	/*get day*/
+	var day = new Date().getDay();  //0~6
+  var str = "today is ";
+  switch(day) {
+  	case 1:
+  	str += "Monday";
+  	break;
+  	case 2:
+  	str += "Tuesday";
+  	break;
+  	case 3:
+  	str += "wednesday";
+  	break;
+  	case 4:
+  	str += "Thursday";
+  	break;
+  	case 5:
+  	str += "Friday";
+  	break;
+  	case 6:
+  	str += "Saturday"
+  	break;
+  	case 0:
+  	str += "Sunday";
+  	break;
+  	default:
+  	str += "don not know."
+  }
+  console.log(str);
+
+  var week = new Array("Sunday","Monday","Tuesday","wednesday","Thursday","Friday","Saturday");
+  var day = new Date().getDay();
+  var str = "today is "+week[day];
+  console.log(str);
+
+	var str = "今天是星期" + "日以而三四五六".charAt(day);
+	console.log(str);
+
+
+/*Object.create*/
+ function inherit(p) {
+ 	if(p === null) throw TypeError();
+ 	if(Object.create) return Object.create(p);
+ 	var t = typeof p;
+ 	if(t !== "object" && t !== "function") throw TypeError(); //check all params,like A && B: if(A) B.
+ 	function f() {};
+ 	f.prototype = p;
+ 	return new f();
+ }
+
+
+ /*check property*/
+ var o = {x:1}
+ "x" in o;  //true
+ "y" in o;   //false
+ "toString" in o;  //true
+
+ var o = {x:1}
+ o.hasOwnProperty('x');   //true
+ o.hasOwnProperty("toString")  //false
+
+ var o = Object.create({x:1});
+ o.y = 2
+ o.propertyIsEnumerable('x') //false
+ o.propertyIsEnumerable('y') //true
+ Object.prototype.propertyIsEnumerable('toString')  //false
+
+
+var a = {"x":1,"y":2};
+console.log(Object.keys(a));    //["x", "y"]
+
+
+/*get enumerable property*/
+//can use for array and object
+function extend(o,p) {
+	for(prop in p) {
+		o[prop] = p[prop];
+	}
+	return o;
+}
+
+function merge(o,p) {
+	for(prop in p) {
+		if(o.hasOwnProperty(prop)) continue;
+		o[prop] = p[prop];
+	}
+	return o;
+}
+
+function substract(o,p) {
+	for(prop in p) {
+		delete o[prop];
+	}
+	return o;
+}
+function restrict(o,p) {
+	for(prop in o) {
+		if(!(prop in p)) delete o[prop];
+	}
+}
+
+function union(o,p) {
+	return extend(extend({},o),p);
+}
+
+function intersection(o,p) {
+	return restrict(extend({},o),p);
+}
+
+
+/*return a array includ enumerable and own property(not value)*/
+function keys(o) {
+	if(typeof o !== "object") throw TypeError();
+	var result = [];
+	for(prop in o) {
+		if(o.hasOwnProperty(prop)) result.push(prop);
+	}
+	return result;
+}
+
+
+/**/
+function classof(o) {
+	return Object.prototype.toString.call(o).slice(8,-1);
+}
+
+
+/*JSON*/
+var o = {x:1,y:{z:[false,null,""]}};
+var s = JSON.stringify(o);
+var p = JSON.parse(s);
+
+console.log(o,s,p);
+
+
+
+/*check undefined or null before traversel array*/
+
+for(var i=0; i<a.length; i++) {
+	if(!a[i]) continue;
+}
+for(var i=0; i<a.length; i++) {
+	if(a[i] === undefined) continue;
+}
+for(var i=0; i<a.length; i++) {
+	if(!(i in a)) continue;      // var a =[1,,1]; 1 in a ;false
+}
+
+
+/*some method of array*/
+var a =[1,2,3];
+a.join() //'1,2,3';
+a.join('') //'123';
+
+
+var a = [];
+a.concat(1,2); //[1,2]
+a.concat([1],2);//[1,2]
+a.concat([1,[1]],[2]);//[1,[1],2];
+
+
+[1,2,3].splice(); //[]
+[1,2,3].splice(2); //[3]
+[1,2,3].splice(1,2); //[2,3]
+
+
+
+[1,[2,'c']].toString() //'1,2,c';
+
+
+
+
+var data = [1,2,3];
+var sum = 0;
+data.forEach(function(value) {  
+    sum += value;
+});
+sum;  //6
+data.forEach( function(v,i,arr){console.log(v,i,arr)});
+//1 0 [1, 2, 3] 
+//2 1 [1, 2, 3] 
+//3 2 [1, 2, 3]
+
+//map() is same with forEach(),but forEach have not return 
+
+data.filter(function(v) {
+	return v > 1;
+})  //[2,3]
+
+//some,every
+
+	</script>
+</body>
+</html>
