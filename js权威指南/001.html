@@ -14,18 +14,16 @@
  
  var checkAll = function(args) {
  	var args = Array.prototype.slice.call(args); //get Array
-    var checkArray = function(target) {
- 	if(!(Object.prototype.toString.call(target) === "[object Array]"))   //check type
-    	throw new Error("please enter Array!");
-    }
-   	Array.prototype.forEach.call(args,function(entry) {
-          checkArray(entry);
-    }) 
+    var checkArray = function (target) {
+        if(!(Object.prototype.toString.call(target) === "[object Array]"))   //check type
+        throw new Error("please enter Array!");
+    };
+   	Array.prototype.forEach.call(args,checkArray);
  }
- var copyArray = function(target,empty) {
+ var copyArray = function(target,newelemet) {
     checkAll(arguments);
-    empty = empty.concat(target);
-    return empty;
+    newelemet = newelemet.concat(target);
+    return newelemet;
  }
 
 b1 = copyArray(a1,b1);
@@ -100,7 +98,7 @@ function printArray(arr) {
     } else {
         do{
             console.log(arr[i]);
-        }while(i++ < len-1);
+        }while(++i < len); //
     }
 }
 
@@ -120,7 +118,7 @@ function dofor(a,b) {
 /*factorial*/
 
 function factorial(n) {
-    if(n < 0)  {
+    if(n < 0 || "NaN" === n.toString()) {  //can not use n===NaN to check
         throw new Error("n can not be nagative!")
     } else if(n === 0) {
         return 0;
@@ -129,14 +127,15 @@ function factorial(n) {
         return f;    
     }
 }
+/*
 try{
     var n = Number(prompt("please enter a positive number"));
-    var f = factorial(n);
+    var f = factorial(n);-45
     alert(n + "!= " +f);
 }catch(ex) {
     alert(ex);
 }
-
+*/
 
 
 /**/
@@ -144,8 +143,9 @@ str = "abcd/ef"; //delete 'ef'
 str1 = str.replace("/ef","");
 str2 = str.replace(/\/ef/,"");
 str3 = str.split("/ef").join();
-str4 = str.substring(0,str.indexOf("/ef"));
-console.log(str1,str2,str3,str4);
+str4 = str.split("/ef")[0];
+str5 = str.substring(0,str.indexOf("/ef"));
+console.log(str1,str2,str3,str4,str5);
 </script>
 
 
