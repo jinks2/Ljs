@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+
+</head>
+<body>
+	<div id="one">one
+		<div id="two">two</div>
+	</div>
+<table>
+	<tbody>
+		<tr><td>11</td><td>12</td><td>13</td></tr>
+		<tr><td>12</td><td>22</td><td>23</td></tr>
+		<tr><td>13</td><td>23</td><td>33</td></tr>
+	</tbody>
+</table>
+<p></p>
+	<script>
+	var one = document.getElementById("one");
+		/**/
+	function uppcase(n) {
+		var child,type;
+		for(var child = n.firstChild; null !== child; child = child.nextSibling) {
+			type = child.nodeType;
+			if(3 === type) child.textContent = child.data.toUpperCase();
+			//n.textContent = n.data
+			else if(1 === type) arguments.callee(child);
+		}
+	}
+
+	/**/
+	function insertAt(parent,child,n) {//before with zero
+		if(undefined == parent) parent = document.body;
+		if(n<0 || n>parent.childNodes.length) 
+			throw new Error("invalid index");
+		else if(parent.childNodes.length === n)
+			parent.appendChild(child);
+		else
+		  parent.insertBefore(child,parent.childNodes[n]);
+	}
+
+
+/**/
+function sortrows(table,n,compare) {
+	var tbody = table.tBodies[0];
+	var rows = tbody.getElementsByTagName("tr");
+	rows = Array.prototype.slice.call(rows,0);
+	rows.sort(function(row1,row2) {
+		var cell1 = row1.getElementsByTagName("td")[n];
+		var cell2 = row2.getElementsByTagName("td")[n];
+		var val1 = cell1.textContent || cell1.innerText;
+		var val2 = cell2.textContent || cell2.innerText;
+		
+		if(compare) return compare(val1,val2);
+		else{
+			if(val1 < val2) return 1;
+			else if(val1 > val2) return -1;
+			else return 0;
+	}
+	})
+	for(var i=0; i<rows.length; i++) {
+		tbody.appendChild(rows[i]);
+	}
+}
+
+/**/
+function show() {
+	for(var i=0;i < 5; i++) {
+		(function(n) {
+			console.log(n);
+		})(i);
+	}
+}
+
+
+/*use node "b" to replace node n ,and append n to the end*/
+function embolden(n) {
+	if("string" === typeof n) {
+		var n = document.getElementById(n);
+	}
+	var b = document.createElement("b");
+	var parent = n.parentNode;
+	parent.replaceChild(b,n);  /**/
+	parent.appendChild(n);
+}
+
+</script>
+
+<h5>this is h5</h5>
+
+<script>
+/**/
+(function() {
+	var body = document.body,toc,header;
+	if(document.getElementById("toc")) {
+		toc = document.getElementById("toc");
+	} else {
+		toc = document.createElement("div");
+		toc.id = "toc";
+		body.insertBefore(toc,body.firstChild);
+	}
+	if(document.querySelectorAll) {
+		header = document.querySelectorAll("h1,h2,h3,h4,h5,h6");
+	} else {
+		header = findHeads(body,[]);
+	}
+	function findHeads(root,arr) {
+		for(var c = root.firstChild; null !== c; c = c.nextSibling) {
+			if(1 !== c.nodeType) continue;
+		  else	if(2 === c.nodeName.length && "H" === c.nodeName.charAt(0))
+				arr.push(c);
+			else findHeads(c,arr);/**/
+		}
+		return arr;
+	}
+	var sectionNumbers = [0,0,0,0,0,0];
+	for(var i=0; i<header.length; i++) {
+		var head = header[i];
+		if(toc === head.parentNode) continue;
+		var level = parseInt(head.nodeName.charAt(1));
+		if(isNaN(level) || level<0 || level>6) continue;
+		sectionNumbers[level-1]++; /**/
+		for(var i=level; i<6; i++) {
+			sectionNumbers[i] = 0;
+		}
+			var sectionNumber = sectionNumbers.slice(0,level).join(".");
+			var span = document.createElement("span");
+			span.className = "tocSectNum";
+			span.innerHTML = sectionNumber;
+			head.insertBefore(span,head.firstChild);
+			var anchor = document.createElement("a");
+			anchor.name = "toc" +sectionNumber;
+			head.parentNode.insertBefore(anchor,head);
+			anchor.appendChild(head);
+			var link = document.createElement("a");
+			link.href = "#top" + sectionNumber;
+			link.innerHTML = head.innerHTML;
+			var entry = document.createElement("div");
+			entry.className = "toc tocLevel" + level;
+			entry.appendChild(link);
+			toc.appendChild(entry);
+	}
+})()
+
+/**/
+	function getViewportSize(w) {
+		w = w || window;
+		if(w.innerHeight)
+			return {w:w.innerWidth,h:w.innerHeight}; /**/
+		var d = w.document.documentElement; 
+		if("CSS1Compat" === document.compatMode)
+			return {w:d.clientWidth,h:d.clientHeight};/**/
+	}
+
+/**/
+function scroll() {
+	var documentHeigth = document.documentElement.offsetHeight;/**/
+	var viewportHeight = window.innerHeight;/**/
+	console.log(documentHeigth,viewportHeight);
+	window.scrollTo(0,documentHeigth-viewportHeight);
+}
+
+
+/**/
+function ElementStream(elt) {
+	if("string" === typeof elt) {
+		elt = document.getElementById(elt);
+	}
+		this.elt = elt;
+		this.buffer = "";
+	}
+	ElementStream.prototype.write = function() {
+		this.buffer += Array.prototype.join.call(arguments,"");/**/
+	}
+	ElementStream.prototype.writeIn = function() {
+		this.buffer += Array.prototype.join.call(arguments,"")+"\n";
+	}
+	ElementStream.prototype.close = function() {
+		this.elt.innerHTML = this.buffer;
+		this.buffer = "";
+	}
+
+var p =  document.getElementsByTagName("P")[0];
+var p = new ElementStream(p);
+
+
+
+/**/
+function attach(target,type,handle) {
+	if(window.addEventListener) {
+		target.addEventListener(type,handle,false);
+	} else {
+		target.addEvent("on"+type,function(event) {/**/
+				return handle.call(target,window.event);
+		})
+	}
+}
+
+
+/**/
+function cancelHandle(event) {
+	event = event || window.event;
+	if(event.preventDefault) {/**/
+		event.preventDefault();
+	}
+	if(event.returnValue) {/*IE*/
+		event.returnValue = false;
+	}
+	return false;
+}
+	</script>
+
+
+</body>
+</html>
