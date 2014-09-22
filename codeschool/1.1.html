@@ -1,0 +1,63 @@
+
+<script>
+// if...else    or     ? :
+var isA = true,isB = false;
+var func = isA && isB ? 
+	function () {
+		console.log("func1");
+	}:
+	function() {
+		console.log("func2");
+	};
+func();
+
+
+//initilize value
+var armory = { 
+	addSword : function(sword) {
+		this.swords = this.swords ? this.swords : [];
+	 //better:  this.swords = this.swords || [];
+	 	this.swords.push(sword);
+	} 
+};
+
+
+//find value in array
+armory.retrieveSword = function(request) {
+	return (this.swords.indexOf(request) >= 0) ?
+		this.swords.splice(this.swords.indexOf(request),1)[0] :
+		alert("No" + request);
+};
+
+
+
+//according pass params do one or more things
+function ceremonialDagger(knight,rank) {
+	this.length = 8;
+	this.owner = knight;
+	switch(rank) {
+		case "king" : this.diamonds = 1;
+		case "Hight Constable" : this.amethyst = 2;
+		case "Field Marshal" : this.sapphires = 4;
+		case "Caption" : this.emeralds = 1;
+		case "knight" : this.rubies = 6;
+	}
+}
+function definedValue(value) {
+	var param;
+	switch(value) {
+		case 1 : param = "one";
+		case 2 : param = "two";
+		case 3 : param = "three";
+		case 4 : param = "four";
+		case 5 : param = "five";
+		default : param = "other";
+	}
+	return param;
+}
+console.log(definedValue(4)); //other
+</script>
+
+
+
+

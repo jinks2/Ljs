@@ -1,0 +1,117 @@
+<script>
+//loop,normally for better than for/in
+	var arr1 = [0,1,2,3];
+	Array.prototype.a = -1; //enumerable:true
+	Array.prototype.b = 4;  ////enumerable:true
+
+	for(var i=0; i<arr1.length; i++) {
+		console.log(arr1[i]);
+	};
+	console.log("-----------------");
+
+	for(prop in arr1) {
+		console.log(arr1[prop]);
+	}
+</script>
+
+<ul id="first"></ul>
+<ul id="secend"></ul>
+
+<script>
+	var texts = ["one","two","three"];
+
+	var first = document.getElementById("first");
+	for(var i=0; i<texts.length; i++) {
+		var elem = document.createElement("li");
+		elem.appendChild(document.createTextNode(texts[i]));
+		first.appendChild(elem);
+	}
+
+
+//better:becase if append children node directly, each time will change the dom tree;
+	var secend = document.getElementById("secend"),
+	    fragment = document.createDocumentFragment();
+	    var elem; //defined here, will not defined in loop each time;
+	for(var i=0; i<texts.length; i++) {
+	  elem = document.createElement("li");
+		elem.appendChild(document.createTextNode(texts[i]));
+		fragment.appendChild(elem);
+	}
+	secend.appendChild(fragment);
+
+
+
+	var newBuilding = ["<html>","<body>","<div>","</div>"];
+    var linkPage1 = "";
+    var linkPage2;
+
+	for(var i=0; i<newBuilding.length; i++) {
+		linkPage1 += newBuilding[i];
+		console.log(linkPage1);
+	};
+
+
+
+//if add string ,use this better
+	linkPage2 = newBuilding.join(""); //default ","
+
+	console.log(linkPage1,linkPage2);
+
+
+/*
+console.time(name)
+//code 
+console.timeEnd(name)  //return the time of run code;
+*/
+
+
+
+/*for example:
+
+for(var i=0; i<first.length; i++) {
+	var newone = new knight(first[i],1);
+	firstnew.push(newone);
+}
+
+better : if the data is bigger,will use lesser time;
+
+for(var i=0,x=first.length ; i<x; i++) {
+	firstnew.push(new knight(first[i],1));
+}
+*/
+
+
+
+//test time
+var day1 = new Date();
+day2 = +new Date();
+console.log(+day1,day2);
+
+
+var startTime = +new Date();
+var endTime = +new Date();
+var timeup = startTime - endTime;
+console.log(timeup);// can use this instead of  console.time()/console.timeEnd();
+
+
+//test time function
+function SpeedTest(testImplement,testParams,repeatTitions) {
+	this.testImplement = testImplement;
+	this.testParams = testParams;
+	this.repeatTitions = repeatTitions || 1000;
+	this.average = 0;
+}
+SpeedTest.prototype = {
+	startTime: function() {
+		var beginTime,endTime,sumTimes = 0;
+		for(var i = 0; x = this.repeatTitions; i < x; i++) {
+			beginTime = +new Date();
+			this.testImplement(this.testParams);
+			endTime = +new Date();
+			sumTimes = endTime - beginTime;
+		}
+		this.average = sumTimes / this.repeatTitions;
+		return this.average;
+	}
+}
+</script>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	/*元字符
+	()[]{}\|+*?^$
+*/
+
+	/*字符类*/
+	//正向，负向，范围，组合，
+	console.log(/[abc]/.test("a"),/[abc]/.test("b"));
+	console.log(/[^abc]/.test("ab"),/[^abc]/.test("d"));
+	console.log(/[0-9]/.test("8"),/[^2-8]/.test(1));
+	console.log(/[0-9a-m]/.test("i"));
+
+
+/* 预定义
+ . === [^\n\r]
+ \d === [0-9]
+ \w === [a-zA-Z0-9]
+ \s (blank)
+ \b
+*/
+
+
+
+/*量词
+
+	? * + {n},{n,m}{n,}
+*/
+	
+/*分组
+	
+*/
+
+
+	</script>
+</body>
+</html>

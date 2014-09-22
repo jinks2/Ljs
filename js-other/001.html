@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div>1<div>1.1</div></div>
+<div class="namenew">2</div>
+<div class="name">3</div>
+<div>4</div>
+	<script>
+		/**/
+		function getElementsByClassName(classname,node) {
+			node = node || document.body;
+			if(node.getElementsByClassName) {
+				return node.getElementsByClassName(classname);
+			} else {
+				var result = [];
+				var elems = node.getElementsByTagName("*");
+				var check = new RegExp("\\b"+classname+"\\b");
+				for(var i=0; i<elems.length; i++) {
+					if(check.test(elems[i].className)) {
+						console.log(0);
+						result.push(elems[i]);
+					}
+				}
+			}
+			return result;
+		}
+
+
+		
+	</script>
+</body>
+</html>
