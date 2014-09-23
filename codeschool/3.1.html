@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+//instanceof:   object instanceof function
+//Object.create():   object = Object.create(object);
+
+
+function A(){this.a = "a"};
+A.prototype.aa = "aa";
+var a = new A();//object
+
+var B = function(){this.b = "b"};
+B.prototype.bb = "bb";
+B.prototype = Object.create(A.prototype);//object
+var b = new B();//object
+
+var C = function(){this.c = "c"};
+C.prototype = Object.create(B.prototype);
+var c = new C();//object
+
+console.log(a,b,c); 
+console.log(B.prototype instanceof A,C.prototype instanceof A);
+console.log(a instanceof A,b instanceof A,c instanceof A);
+
+
+
+
+/*error: return different message accroding to error
+
+try{
+
+	if(list === undefined) {
+	  throw new ReferenceError();
+	}
+	if((list instanceof Array) === false) {
+	  throw new TypeError();
+	}
+	.................
+
+}catch(error) {
+	if(error instanceof ReferenceError){
+	
+	}
+	if(error instanceof TypeError) {
+	
+	}
+	.................
+}finally{
+	
+}
+
+*/
+
+</script>
+
+<span id="age">Age:22</span>
+<span>Age:34</span>
+<span>Age:22</span>
+<script>
+// use tyy..catch
+function changeInnerHTMKByIdOrExisting(id,update,existing) {
+	try{
+		var newElement = undefined;
+		document.getElementById(id).innerHTML = update;
+	} catch (error) { //if not find id;
+		 try{
+			var elements = document.getElementsByTagName("*");
+			for(var i = 0, x = elements.length; i<x; i++) { //find textNode === existing
+				if(elements[i].innerHTML === existing) {
+					elements[i].innerHTML = update;
+					id = elements[i].id;
+					break;
+				}
+				if(i === x) {
+					throw new Error("An existing element" + "was not found.");
+				}
+			}
+		} catch (error2) {
+			alert(error2.message + "\nCreating new text node.");
+			newElement = document.createTextNode(update); 
+		}
+	}
+	finally {
+		if(newElement !== undefined) {
+			console.log("Returing new" + "text node...");
+			return newElement;
+		} else {
+			console.log("Modified element \"" + (id || existing) + "\" whith inner HTML \"" + update + ".");
+		}
+	}
+}
+
+changeInnerHTMKByIdOrExisting("age","Age:35","Age:34");
+changeInnerHTMKByIdOrExisting("age1","Age:35","Age:34");
+changeInnerHTMKByIdOrExisting("age2","Age:35","Age:33");
+
+
+//0.1 + 0.2;
+console.log(0.1+0.2+0.3);
+console.log(0.1+(0.2+0.3));
+//use toFixed;
+console.log((0.1+0.2).toFixed(1));
+
+
+</script>
+
+</body>
+</html>
