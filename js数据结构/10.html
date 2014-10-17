@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+function Node(elem) {
+   this.elem = elem;
+   this.next = null;
+   this.previous = null;
+}
+function LList() {
+   this.head = new Node("head");
+   this.find = find;
+   this.insert = insert;
+   this.display = display;
+   this.remove = remove;
+   this.findLast = findLast;
+   this.dispReverse = dispReverse;
+}
+
+function find(item) {
+   var currNode = this.head;
+   while(currNode.elem !== item) {
+     currNode = currNode.next;
+   }
+   return currNode;
+}
+function insert(newElem,item) {
+   var newNode = new Node(newElem);
+   var currNode = this.find(item);
+   newNode.next = currNode.next;
+   newNode.previous = currNode;
+   currNode.next = newNode;
+}
+function display() {
+   var currNode = this.head;
+   while(!(currNode.next === null)) {
+      console.log(currNode.next.elem);
+      currNode = currNode.next;
+   }
+}
+function remove(item) {
+   var currNode = this.find(item);
+   if(!(currNode.next === null)) {
+      currNode.previous.next = currNode.next;
+      currNode.next.previous = currNode.previous;
+      currNode.next = null;
+      currNode.previous = null;
+   }
+}
+function findLast() {
+   var currNode = this.head;
+   while(!(currNode.next === null)) {
+      currNode = currNode.next;
+   }
+   return currNode;
+}
+function dispReverse() {
+   var currNode = this.findLast();
+   while(!(currNode.previous === null)) {
+      console.log(currNode.elem);
+      currNode = currNode.previous;
+   }
+}
+
+var cities = new LList();
+cities.insert("Conway","head");
+cities.insert("Russllville","Conway");
+cities.insert("Carlisle","Russllville");
+cities.insert("Alma","Carlisle");
+cities.display();
+console.log("");
+cities.remove("Carlisle");
+cities.display();
+console.log("");
+cities.dispReverse();
+</script>
+</body>
+</html>	

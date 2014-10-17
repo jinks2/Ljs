@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+function Node (elem) {
+   this.elem = elem;
+   this.next = null;
+}
+function LList() {
+   this.head = new Node("head");
+   this.find = find;
+   this.insert = insert;
+   this.findPrevious = findPrevious;
+   this.remove = remove;
+   this.display = display;
+}
+
+function find(item) {
+   var currNode = this.head;
+   while(currNode.elem !== item) {
+      currNode = currNode.next;
+   }
+   return currNode;
+}
+function insert(newElem,item) {
+   var newNode = new Node(newElem);
+   var currNode = this.find(item);
+   newNode.next = currNode.next;
+   currNode.next = newNode;
+}
+function display() {
+   var currNode = this.head;
+   while(!(currNode.next === null)) {
+      console.log(currNode.next.elem);
+      currNode = currNode.next;
+   }
+}
+function findPrevious(item) {
+   var currNode = this.head;
+   while(!(currNode.next === null) && (currNode.next.elem !== item)) {
+      currNode = currNode.next;
+   }
+   return currNode;
+}
+function remove(item) {
+   var prevNode = this.findPrevious(item);
+   if(!(prevNode.next === null)) {
+      prevNode.next = prevNode.next.next;
+   }
+}
+var cities = new LList();
+cities.insert("Conway","head");
+cities.insert("Russellville","Conway");
+cities.insert("Alma","Russellville");
+cities.display();
+console.log("");
+cities.remove("Russellville");
+cities.display();
+</script>
+</body>
+</html>	
