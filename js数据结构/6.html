@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<div id="dancer">
+	<p>F Allison McMillan</p>
+	<p>M Frank Opitz</p>
+	<p>M Mason McMillan</p>
+	<p>M Clayton Ruff</p>
+	<p>F Cheryl Fereback</p>
+	<p>M Bryan Frazer</p>
+	<p>F Jenifer Ingram</p>
+	<p>M Bryan Frazer</p>
+	<p>M David Durr</p>
+	<p>M Danny Martin</p>
+	<p>F Aurir Adney</p>
+</div>
+<script type="text/javascript">
+function Queue() {
+   this.dataStore = [];
+   this.enqueue = enqueue;
+   this.dequeue = dequeue;
+   this.front = front;
+   this.back = back;
+   this.count = count;
+   this.toString = toString;
+   this.isEmpty = isEmpty;
+}
+function enqueue(elem) {
+   this.dataStore.push(elem);
+}
+function dequeue() {
+   return this.dataStore.shift();
+}
+function front() {
+   return this.dataStore[0];
+}
+function back() {
+   return this.dataStore[this.dataStore.length - 1];
+}
+function toString() {
+   var retStr = "";
+   for(var i = 0; i < this.dataStore.length; ++i) {
+      retStr += this.dataStore[i] + "\n";
+   }
+   return retStr;
+}
+function count() {
+   return this.dataStore.length;
+}
+function isEmpty() {
+   if(this.dataStore.length === 0) {
+      return true;
+   } else {
+      return false;
+   }
+}
+
+
+function Dancer(name,sex) {
+	this.name = name;
+	this.sex = sex;
+}
+
+function getDancer(male,females) {
+	var names = document.getElementById("dancer").textContent.split("\n");
+	names.pop();
+	names.shift();
+	var dancer,sex,name;
+	for(var i = 0; i <names.length; i++) {
+		names[i] = names[i].trim();
+		dancer = names[i].split(" ");
+		sex = dancer[0];
+		name = dancer[1];
+		if(sex === "F") {
+			females.enqueue(new Dancer(name,sex));
+		} else {
+			male.enqueue(new Dancer(name,sex));
+		}
+	}
+}
+
+function dance(male,females) {
+	var person,str;
+	console.log("The dance partner are: \n");
+	while(!females.isEmpty() && !male.isEmpty()) {
+		person = females.dequeue();
+		str = "Female dancer is: '"+ person.name + "'";
+		person = male.dequeue();
+		console.log(str + " and the male dancer is: '" + person.name + "'");
+	} 
+}
+var maleDancers = new Queue();
+var femaleDancers = new Queue();
+getDancer(maleDancers,femaleDancers);
+dance(maleDancers,femaleDancers);
+if(!femaleDancers.isEmpty()) {
+	console.log("There are " + femaleDancers.count() + "female dancers and " + femaleDancers.front().name + " is waiting to dance");
+}
+if(!maleDancers.isEmpty()) {
+	console.log("There are " + maleDancers.count() + " male dancers is waiting and '" + maleDancers.front().name + "' is waiting to dance now");
+}
+</script>
+</body>
+</html>	

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+/*type of value*/
+var str = "jinks";
+var obj = new String(str);
+
+function newToString() {
+	return "this is new toString";
+};
+
+function func(val) {
+	val.toString = newToString;
+	return val;
+};
+
+console.log(func(str).toString());
+console.log(func(obj).toString());
+
+
+
+/**/
+(function foo() {
+	console.log(foo);
+});
+//console.log(foo);  默认foo是局部
+
+
+
+
+
+	</script>
+
+</body>
+</html>

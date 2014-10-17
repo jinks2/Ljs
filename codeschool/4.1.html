@@ -17,6 +17,57 @@
  for(var i = 0, x = list.length; i < x; i++) {
  	console.log(list[i]);
  }
+
+
+ /*
+  add script better:
+
+  1.locate <script>  in the bottom before the </body>
+
+  2.locate <script> in the <head> but use HTML5 ascry attribute
+ */
+
+
+
+/*use namespace*/
+var HOPMASTER = {
+	list:[],
+	display:function() {
+		/*use 'this'*/
+	}
+	BIOGRAPTH:{
+		/*also can use nested namespace*/
+	}
+}
+
+
+/*use module to set local values*/
+var ARMORY = (function() {
+	var weaponList = [];
+	var removeEwapon = function() {};
+
+	return {
+      makeEwapon: function() {}
+	}
+})();
+
+//faster global variable in module,use imports
+var wartime = true;
+var ARMORY = (function(war) {
+	var weaponList = [];
+	var removeEwapon = function() {};
+
+	return {
+      makeEwapon: function() {
+      	if(war) {
+
+      	}
+      }
+	}
+})(wartime);
+
+
 	</script>
+
 </body>
 </html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+function Stack() {
+   this.dataStore = [];
+   this.top = 0;
+   this.push = push;
+   this.pop = pop;
+   this.peek = peek; 
+   this.length = length;
+   this.clear =clear; 
+}
+function push(elem) {
+   this.dataStore[this.top++] = elem;
+}
+function pop() {
+	var data = this.dataStore[--this.top];
+	this.dataStore.length = this.top;
+   return data;
+}
+function peek() {
+   return this.dataStore[--this.top];
+}
+function length() {
+   return this.top;
+}
+function clear() {
+   this.top = 0;
+}
+
+function fac(n) {
+	var s = new Stack(), product = 1;
+	while(n > 1) {
+		s.push(n--);
+	}
+	while(s.length() > 0) {
+		product *= s.pop();
+	}
+	console.log(product);
+}
+fac(5);
+fac(15);
+
+</script>
+</body>
+</html>	
