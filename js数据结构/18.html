@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+ function Set () {
+   this.dataStore = [];
+   this.add = add;
+   this.remove = remove;
+   this.contains =contains;
+   this.show = show; 
+ }
+ function contains(data) {
+  var pos = this.dataStore.indexOf(data);
+  if(pos > -1) {
+    return true;
+  } else {
+    return false;
+  }
+ }
+ function add(data) {
+   var pos = this.dataStore.indexOf(data);
+   if( pos < 0) {
+     this.dataStore.push(data);
+     return true;
+   } else {
+     return false;
+   }
+ }
+ function remove(data) {
+   var pos = this.dataStore.indexOf(data);
+   if(pos > -1) {
+     this.dataStore.splice(pos,1);
+     return true;
+   } else {
+     return false;
+   }
+ }
+ function show() {
+   console.log(this.dataStore);
+ }
+
+var names = new Set();
+names.add("David");
+names.add("Jennifer");
+names.add("Cynthia");
+names.add("Mike");
+names.add("Raymond");
+names.show();
+if(names.add("David")) {
+  console.log("David added");
+} else {
+  console.log("can not add David, must already be in set");
+}
+names.remove("Mike");
+names.show();
+</script>
+</body>
+</html>	

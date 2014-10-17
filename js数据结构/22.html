@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+ function Set () {
+   this.dataStore = [];
+   this.add = add;
+   this.remove = remove;
+   this.contains =contains;
+   this.union = union;
+   this.intersect = intersect;
+   this.difference = difference;
+   this.show = show; 
+   this.size = size;
+   this.subset = subset;
+ }
+ function contains(data) {
+  var pos = this.dataStore.indexOf(data);
+  if(pos > -1) {
+    return true;
+  } else {
+    return false;
+  }
+ }
+ function add(data) {
+   var pos = this.dataStore.indexOf(data);
+   if( pos < 0) {
+     this.dataStore.push(data);
+     return true;
+   } else {
+     return false;
+   }
+ }
+ function remove(data) {
+   var pos = this.dataStore.indexOf(data);
+   if(pos > -1) {
+     this.dataStore.splice(pos,1);
+     return true;
+   } else {
+     return false;
+   }
+ }
+ function show() {
+   return this.dataStore;
+ }
+ function union(set) {
+    var tempSet = new Set();
+    for(var i = 0; i < this.dataStore.length; ++i) {
+      tempSet.add(this.dataStore[i]);
+    }
+    for(var i = 0; i < set.dataStore.length; ++i) {
+      var setData = set.dataStore[i];
+      if(!tempSet.contains(setData)) {
+        tempSet.dataStore.push(setData);
+      }
+    }
+    return tempSet;
+ }
+ function intersect(set) {
+  var tempSet = new Set();
+  for(var i = 0; i < this.dataStore.length; ++i) {
+    var thisData = this.dataStore[i];
+    if(set.contains(thisData)) {
+      tempSet.add(thisData);
+    }
+  }
+  return tempSet;
+ }
+
+ function difference(set) {
+  var tempSet = new Set();
+  for(var i = 0; i < this.dataStore.length; ++i) {
+    var thisData = this.dataStore[i];
+    if(!set.contains(thisData)) {
+      tempSet.add(thisData);
+    }
+  }
+  return tempSet;
+ }
+ function size() {
+  return this.dataStore.length;
+ }
+ function subset(set) {
+   if(this.size() > set.size()) {
+      return false;
+   } else {
+    for(var i = 0; i < this.dataStore.length; ++i) {
+      var thisData = this.dataStore[i];
+      if(!set.contains(thisData)) {
+        return false;
+      }
+    }
+   }
+   return true;
+ }
+
+var cis = new Set(),dmp = new Set();
+cis.add("Mike");
+cis.add("Clayton");
+cis.add("Jennifer");
+dmp.add("Mike");
+var it = dmp.subset(cis);
+console.log(it);
+</script>
+</body>
+</html>	

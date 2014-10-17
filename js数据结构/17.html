@@ -8,8 +8,9 @@
 <script type="text/javascript">
   function HashTable() {
    this.table = new Array(137);
-   this.simpleHash = simpleHash;
+   this.values = [];
    this.showDistro = showDistro;
+   this.simpleHash = simpleHash;
    this.put = put;
    this.init = init;
   }
@@ -19,6 +20,18 @@
       total += data.charCodeAt(i);
    }
    return total % this.table.length;
+  }
+  function betterHash(string) {
+   var H = 37;
+   var total = 0;
+   for(var i = 0; i < string.length; ++i) {
+      total = H * total + string.charCodeAt(i);
+   }
+   total = total % this.table.length;
+   if(total < 0) {
+    total += this.table.length-1;
+   }
+   return parseInt(total);
   }
   function showDistro() {
    var n = 0;
@@ -30,6 +43,9 @@
   }
   function put(data) {
    var pos = this.simpleHash(data);
+    while(this.table[pos] !== undefined) {
+      ++pos;
+    }
    this.table[pos] = data;
   }
   function init(data) {
@@ -42,7 +58,6 @@
   var hTable = new HashTable();
   hTable.init(someNames);
   hTable.showDistro();
-
 </script>
 </body>
 </html>	
