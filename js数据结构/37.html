@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+  function  CArray(numElems) {
+  	this.dataStore = [];
+  	this.pos = 0;
+  	this.numElems = numElems;
+  	this.insert = insert;
+  	this.toString = toString;
+  	this.clear = clear;
+  	this.setData = setData;
+  	this.swap =swap;
+    this.selectionSort = selectionSort;
+  	for(var i = 0; i < numElems; ++i) {
+  		this.dataStore[i] = i;
+  	}
+  }
+  function  setData() {
+  	for(var i = 0; i < this.numElems; ++i) {
+  		this.dataStore[i] = Math.floor(Math.random() * 100);
+  	}
+  }
+  function clear() {
+  	for (var i = 0; i <  this.numElems; ++i) {
+  		this.dataStore[i] = 0;
+  	}
+  }
+  function insert(elem) {
+  	this.dataStore[this.pos++] = elem;
+  }
+  function toString() {
+  	var str = "";
+  	for(var i = 0; i < this.dataStore.length; ++i) {
+  		str += this.dataStore[i] + " ";
+  		if( i > 0 && (i+1) %10 === 0) {
+  			str += "\n";
+  		}
+  	}
+  	return str;
+  }
+  function swap(arr,index1,index2) {
+  	var temp = arr[index1];
+  	arr[index1] = arr[index2];
+  	arr[index2] = temp;
+  }
+  function selectionSort() {
+    var min,temp;
+    for(var outer = 0; outer < this.dataStore.length-1; ++outer) {  //不和自己比较减一
+      min = outer;
+      for(var inner = outer+1; inner < this.dataStore.length; ++inner) { //和已确定排序的个数叫要比较的一个比较
+        if(this.dataStore[inner] < this.dataStore[min]) {
+          swap(this.dataStore,inner,min);
+        }
+      }
+    }
+  }
+
+var myNums = new CArray(10);
+myNums.setData();
+console.log(myNums.toString());
+myNums.selectionSort();
+console.log(myNums.toString());
+</script>
+</body>
+</html>	
