@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+function Graph (v) {
+	this.vertices = v; 
+	this.edges = 0; 
+	this.adj = [];
+	this.marked = [];
+	this.addEdge = addEdge;
+	this.showGraph = showGraph;
+	this.dfs = dfs;
+    this.init = init;
+    this.edgeTo = [];
+    this.hasPathTo = hasPathTo;
+    this.pathTo = pathTo;
+    this.printPath = printPath;
+}
+function addEdge(v,w) {  
+	this.adj[v].push(w);
+	this.adj[w].push(v);
+	this.edges++;
+}
+function showGraph() {
+	var str = "";
+	for(var i = 0; i < this.vertices; ++i) {
+		str = i + "-->";
+		for(var j = 0; j < this.vertices; ++j) {
+			if(this.adj[i][j] != undefined) {
+				str += this.adj[i][j] + " ";
+			}
+		}
+		console.log(str);
+	}
+}
+function init() {
+	for(var i = 0; i < this.vertices; ++i) {
+		this.adj[i] = [];  
+		this.marked[i] = false;
+	}
+}
+function dfs(s) {
+	var queue = [],adj = this.adj[s],nextAdj;
+	this.marked[s] = true;
+	queue.push(s);
+	while(queue.length > 0) {
+		var v = queue.shift();
+		if(v != undefined) {
+			console.log("Visited vertex: " + v);
+		}
+		adj = this.adj[v];
+		for(var w in adj) {
+			var nextAdj = this.adj[v][w];
+			if(!this.marked[nextAdj]) {
+				this.edgeTo[nextAdj] = v;
+				this.marked[nextAdj] = true;
+				queue.push(nextAdj);
+			}
+		}
+
+	}
+}
+function pathTo(s,v) {
+	this.dfs(s);
+	if(!this.hasPathTo(v)) {
+		return undefined;
+	}
+	var path = [];
+	for(var i = v;i != s; i = this.edgeTo[i]) {
+		path.push(i);
+	}
+	path.push(s);
+	this.printPath(path);
+}
+function hasPathTo(v) {
+	return this.marked[v];
+}
+function printPath(paths) {
+	var str = "";
+	while(paths.length > 0) {
+		if(paths.length > 1) {
+			str += paths.pop() + "-";
+		} else {
+			str += paths.pop();
+		}
+	}
+	console.log(str);	
+}
+
+var g = new Graph(7);
+g.init();
+g.addEdge(0,1);
+g.addEdge(0,2);
+g.addEdge(0,3);
+g.addEdge(1,4);
+g.addEdge(2,5);
+g.addEdge(4,6);
+g.addEdge(0,6);
+g.showGraph();
+var paths = g.pathTo(0,6);
+
+
+</script>
+</body>
+</html>	

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+  function Node (data,left,right) {
+   this.data = data;
+   this.show = show;
+   this.left = left;
+   this.right = right;
+ }
+ function show() {
+  console.log(this.data);
+ }
+ function BST() {
+  this.root = null;
+  this.insert = insert;
+  this.inOrder = inOrder;
+  this.preOrder = preOrder;
+  this.postOrder = postOrder;
+  this.getMin = getMin;
+  this.getMax = getMax;
+  this.find = find;
+  this.remove = remove;
+  this.getSmallest =getSmallest;
+  this.removeNode =removeNode;
+ }
+ function insert(data) {
+  var n = new Node(data,null,null);
+  if(this.root == null) { //
+    this.root = n;
+  } else {
+    var currNode =  this.root,parent;
+    while(true) {
+      parent = currNode;
+      if(data == currNode.data) {
+        break;
+      } else if(data < currNode.data) {
+        currNode = currNode.left;
+        if(currNode == null) {
+          parent.left = n;
+          break;
+        }
+      } else {
+        currNode = currNode.right;
+        if(currNode == null) {
+          parent.right = n;
+          break;
+        }
+      }
+    }
+  }
+ }
+ function inOrder(node) {
+  if(!(node == null)) {
+    inOrder(node.left);
+    node.show();
+    inOrder(node.right);
+  }
+ }
+ function preOrder(node) {
+  if(!(node == null)) {
+    node.show();
+    preOrder(node.left);
+    preOrder(node.right);
+  }
+ }
+ function postOrder(node) {
+  if(!(node == null)) {
+    postOrder(node.left);
+    postOrder(node.right);
+    node.show();
+  }
+ }
+ function getMin() {
+  var currNode = this.root;
+  while(!(currNode.left == null)) {
+    currNode = currNode.left;
+    return currNode;
+  }
+  console.log(currNode.data);
+ }
+  function getMax() {
+  var currNode = this.root;
+  while(!(currNode.right == null)) {
+    currNode = currNode.right;
+    return currNode;
+  }
+  console.log(currNode.data);
+ }
+ function find(data) {
+  var currNode = this.root;
+  while(currNode != null) {
+    if(currNode.data === data) {
+      return currNode;
+    } else if(data < currNode.data) {
+      currNode = currNode.left;
+    } else {
+      currNode = currNode.right;
+    }
+  }
+  return null;
+ }
+ function remove(data) {
+  root = removeNode(this.root,data);
+ }
+ function getSmallest(node) {
+   if (node.left == null) {
+      return node;
+   }
+   else {
+      return getSmallest(node.left);
+   }
+}
+ function removeNode(node,data) {
+  if(node == null) {
+    return null;
+  }
+  if(data === node.data) {
+    //not child node;
+    if(node.left == null && node.right == null) {
+      return null;
+    }
+    //not left child node;
+    if(node.left == null) {
+      return node.right;
+    }
+    //not right child node;
+    if(node.right == null) {
+      return node.left;
+    }
+    //all have
+    var tempNode = getSmallest(node.right);
+    node.data = tempNode.data;
+    node.right = removeNode(node.right,tempNode.data); 
+    return node;
+  } else if(data < node.data) {
+    node.left = removeNode(node.left,data);//set parent.left null to delete this node;
+    return node;
+  } else {
+    node.right = removeNode(node.right,data);
+    return node;
+  }
+ }
+ var nums = new BST();
+ nums.insert(23);
+ nums.insert(45);
+ nums.insert(16);
+ nums.insert(37);
+ nums.insert(3);
+ nums.insert(99);
+ nums.insert(22);
+ nums.insert(46);
+ nums.insert(110);
+ nums.remove(45);
+ postOrder(nums.root);
+</script>
+</body>
+</html>	
