@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+  function  CArray(numElems) {
+  	this.dataStore = [];
+  	this.pos = 0;
+  	this.numElems = numElems || 0;
+  	this.insert = insert;
+  	this.toString = toString;
+  	this.clear = clear;
+  	this.setData = setData;
+  	this.swap =swap;
+
+  	for(var i = 0; i < numElems; ++i) {
+  		this.dataStore[i] = i;
+  	}
+  }
+  function  setData() {
+  	for(var i = 0; i < this.numElems; ++i) {
+  		this.dataStore[i] = Math.floor(Math.random() * 100);
+  	}
+  }
+  function clear() {
+  	for (var i = 0; i <  this.numElems; ++i) {
+  		this.dataStore[i] = 0;
+  	}
+  }
+  function insert(elem) {
+  	this.dataStore[this.pos++] = elem;
+  }
+  function toString() {
+  	var str = "";
+  	for(var i = 0; i < this.dataStore.length; ++i) {
+  		str += this.dataStore[i] + " ";
+  		if( i > 0 && (i+1) %10 === 0) {
+  			str += "\n";
+  		}
+  	}
+  	return str;
+  }
+  function swap(arr,index1,index2) {
+  	var temp = arr[index1];
+  	arr[index1] = arr[index2];
+  	arr[index2] = temp;
+  }
+  function qSort(arr) {
+    var length = arr.length;
+    if(arr.length === 0) {
+      return [];
+    }
+    var left = [], right = [], pivot = arr[0];
+    for(var i = 1; i < length; ++i) {
+      if(arr[i] < pivot) {
+        left.push(arr[i]);
+      } else {
+        right.push(arr[i]);
+      }
+    }
+    return qSort(left).concat(pivot,qSort(right));
+  }
+ 
+var myNums = new CArray(10);
+myNums.setData();
+console.log(myNums.toString());
+console.log(qSort(myNums.dataStore));
+</script>
+</body>
+</html>	
