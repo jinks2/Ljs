@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+function recurFib(n) {
+	if(n < 2) {
+		return n;
+	} else {
+		return n * arguments.callee(n-1);
+	}
+}
+function dynFib(n) {
+	var val = [];
+	for(var i = 1; i <= n; ++i) {
+		val[i] = 1;
+	}
+	if(n === 1) {
+		return 1;
+	} else {
+		for(var i = 2; i <= n; ++i) {
+			val[i] = i * val[i-1];
+		}
+		return val[n];
+	}
+}
+
+function iterFib(n) {
+	var last = 1,
+	    result = 1;
+	for(var i = 2; i <= n; ++i) {
+		result = last * i;
+		last = result;
+	}
+	return result;
+}
+
+console.log(iterFib(3));
+</script>
+</body>
+</html>	

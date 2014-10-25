@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var nums = [0,45,101,12,5,12,78,45,5];
+
+function seqSearch(arr,data) {
+	for(var i = 0; i < arr.length; ++i) {
+		if(arr[i] === data && i > (arr.length * 0.2)) {
+			swap(arr,i,0);
+			console.log(arr);
+			return true;
+		} else if(arr[i] === data) {
+			return true;
+		}
+	}
+	return false;
+}
+function swap(arr,index,index1) {
+	temp = arr[index];
+	arr[index] = arr[index1];
+	arr[index1] = temp;
+}
+
+for(var i = 0; i < 4; ++i) {
+	seqSearch(nums,5);
+}
+
+
+
+</script>
+</body>
+</html>	
