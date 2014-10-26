@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<style type="text/css">
+
+</style>
+
+<script type="text/javascript">
+  var fibonacci = function() {
+    var memo = [1,1,2];
+    var fib =  function(n) {
+      var result = memo[n];
+      if(result == undefined) {
+        result = fib(n-1)*n;
+        memo[n] = result;
+      }
+      console.log(memo);
+      return result;
+    }
+    return fib;
+  } 
+
+
+</script>
+</body>

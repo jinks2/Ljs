@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+  #drop{
+    width: 300px;
+    height: 200px;
+    background-color: #f00;
+    padding: 5px;
+    border: 2px solid #000;
+  }
+  #item{
+    width: 100px;
+    height: 100px;
+    background-color: #ff0;
+    padding: 5px;
+    margin:20px;
+    border: 1px dashed #000;
+  }
+  *[draggable=true] {
+    -moz-user-select: none;
+    -khtml-user-drag:element;
+    cursor: :move;
+  }
+  *:-khtml-drag{
+    background-color: :rgba(238,238,238,0.5);
+  }
+  </style>
+</head>
+<body>
+<div>
+    <p>Drag the small yellow box with the dash border to the larfer red box with the solid border</p>
+</div>
+<div id='item' draggable='true'>
+</div>
+<div id='drop'>
+</div>
+<script type="text/javascript">
+
+function listenEvent(eventTarget,eventType,eventHandler) {
+  if(eventTarget.addEventListener) {
+    eventTarget.addEventListener(eventType,eventHandler,false);
+  } else if(eventTarget.attachEvent){
+    eventType = 'on' + eventType;
+    eventTarget.attachEvent(eventType,eventHandler);
+  } else {
+    eventType['on' + eventType] = eventHandler;
+  }
+}
+
+function cancelPropagation(evt) {
+  evt = evt || window.event;
+  if(evt.stopPropagation) {
+    evt.stopPropagation();
+  } else {
+    evt.cancelBubble = true;
+  }
+}
+function cancelEvent(evt) {
+  evt = evt || window.event;
+  if(evt.preventDefault) {
+    evt.preventDefault();
+  } else { 
+    evt.returnValue = false;
+  }
+}
+function dragOver(evt) {
+  if(evt.preventDefault) evt.preventDefault();
+  evt = evt || window.event;
+  evt.dataTransfer.dropEffect = 'copy';
+  return false;
+}
+window.onload = function() {
+   var target = document.getElementById('drop');
+  listenEvent(target,'dragenter',cancelEvent);
+  listenEvent(target,'dragover',dragOver);
+  listenEvent(target,'drop',function(evt) {
+    cancelPropagation(evt);
+    evt = evt || window.event;
+    evt.dataTransfer.dropEffect = 'copy';
+    var id = evt.dataTransfer.getData('Text');
+    target.appendChild(document.getElementById(id));
+  });
+  var item = document.getElementById('item');
+  item.setAttribute('draggable','true');
+  listenEvent(item,'dragstart',function(evt) {
+    evt = evt || window.event;
+    evt.dataTransfer.effectAllowed = 'copy';
+    evt.dataTransfer.setData('Text',item.id);
+  })
+
+}
+</script>
+</body>

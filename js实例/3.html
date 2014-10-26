@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+  #one{
+    width: 500px;
+    height: 500px;
+    background-color: pink;
+    float: left;
+  }
+  #two{
+    width: 500px;
+    height: 500px;
+    background-color: red;
+    float: left;
+  }
+  #three{
+    width: 1000px;
+    height: 500px;
+    background-color: yellow;
+    float: left;
+  }
+  </style>
+</head>
+<body>
+<div id='one'></div>
+<div id='two'></div>
+<div id='three'></div>
+<script type="text/javascript">
+  window.onload  =  func;
+  function func() {
+    console.log(0);
+  }
+
+  
+  window.onclick  =  processClick;
+
+  function processClick(evt) {
+    evt = evt || window.event; //IE8
+    var x = 0, y = 0;
+    if(evt.pageX) {
+      x = evt.pageX;
+      y = evt.pageY;
+    } else if(evt.clientX){ //IE8
+      var offsetX = 0, offsetY = 0;
+      if(document.documentElement.scrollLeft) {
+        offsetX = document.documentElement.scrollLeft;
+        offsetY = document.documentElement.scrollTop;
+      } else if(document.body) { //IE6
+        offsetX = document.body.scrollLeft;
+        offsetY = document.body.scrollTop; 
+      }
+      x = evt.clientX + offsetX;
+      y = evt.clientY + offsetY;
+    }
+    //console.log('you clicked at x = ' + x + ' y= ' + y);
+
+    console.log(' pageX: ' + evt.pageX + ' pageY: ' + evt.pageY, ' clientX: ' + evt.clientX + ' clientY: ' + evt.clientY, ' screenX:' + evt.screenX + ' screenY: ' + evt.screenY);
+
+  }
+</script>
+</body>

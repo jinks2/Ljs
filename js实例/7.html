@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+    #one{
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+    #two{
+      width: 50px;
+      height: 50px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+<div id='one'>
+  <div id='two'>
+    <p>Inner</p>
+  </div>
+</div>
+<a href="" id='link'>link</a>
+<button id='stop'>Stop Propagation</button>
+<button id='cancel'>Cancel Event</button>
+<script type="text/javascript">
+var stopPropagation = false, preventDefault = false;
+
+function listenEvent(eventTarget,eventType,eventHandler) {
+  if(eventTarget.addEventListener) {
+    eventTarget.addEventListener(eventType,eventHandler,false);
+  } else if(eventTarget.attachEvent){
+    eventType = 'on' + eventType;
+    eventTarget.attachEvent(eventType,eventHandler);
+  } else {
+    eventType['on' + eventType] = eventHandler;
+  }
+}
+
+function cancelPropagation(evt) {
+  evt = evt || window.event;
+  if(evt.stopPropagation) {
+    console.log(evt);
+    evt.stopPropagation();
+  } else {
+    evt.cancelBubble = true;
+  }
+}
+function cancelEvent(evt) {
+  evt = evt || window.event;
+  if(evt.preventDefault) {
+    evt.preventDefault();
+  } else { 
+    evt.returnValue = false;
+  }
+}
+function stopProp() {
+  stopPropagation = true;
+}
+function cancel() {
+  preventDefault = true;
+}
+function clickBoxOne(evt) {
+  console.log('hello from one');
+}
+function clickBoxTwo(evt) {
+  console.log('hello from two');
+  if(stopPropagation) {
+    cancelPropagation(evt);
+  }
+}
+function clickLink(evt) {
+  alert(0);
+  if(preventDefault) {
+    cancelEvent(evt);
+  }
+}
+
+listenEvent(window,'load',function() {
+  listenEvent(document.getElementById('one'),'click',clickBoxOne);
+  listenEvent(document.getElementById('two'),'click',clickBoxTwo);
+  listenEvent(document.getElementById('stop'),'click',stopProp);
+  listenEvent(document.getElementById('link'),'click',clickLink);
+  listenEvent(document.getElementById('cancel'),'click',cancel);
+})
+</script>
+</body>

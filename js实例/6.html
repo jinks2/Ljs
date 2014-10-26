@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+    #outer{
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+    #inner{
+      width: 50px;
+      height: 50px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+<div id='outer'>
+  <div id='inner'></div>
+</div>
+<script type="text/javascript">
+function listenEvent(eventTarget,eventType,eventHandler) {
+  if(eventTarget.addEventListener) {
+    eventTarget.addEventListener(eventType,eventHandler,false);
+  } else if(eventTarget.attachEvent){
+    eventType = 'on' + eventType;
+    eventTarget.attachEvent(eventType,eventHandler);
+  } else {
+    eventType['on' + eventType] = eventHandler;
+  }
+}
+
+function stopListening(eventTarget,eventType,eventHandler) {
+  if(eventTarget.removeEventListener) {
+    eventTarget.removeEventListener(eventType,eventHandler,false);
+  } else if(eventTarget.detachEvent) {
+    eventType = 'on' + eventType;
+    eventTarget.detachEvent(eventType,eventHandler);
+  } else {
+    eventTarget['on' + eventType] = null;
+  }
+}
+function handle() {
+  var id = this.id;
+  console.log(id);
+}
+var target = document.getElementById('inner');
+
+listenEvent(target,'click',handle);
+stopListening(target,'click',handle);
+</script>
+</body>

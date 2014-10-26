@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+     #info{
+      width: 10px;
+      height: 10px;
+      background-color: pink;
+      position: relative;
+     }
+  </style>
+</head>
+<body>
+<div id='info'></div> 
+<script type="text/javascript">
+ window.onclick = processClick;
+ function processClick(evt) {
+    evt = evt || window.event;
+    var x = 0,y = 0;
+    if(evt.pageX) {
+      x = evt.pageX;
+      y = evt.pageY;
+    } else if(evt.clientX) {
+      var offsetX = 0,offsetY = 0;
+      if(document.documentElement.scrollLeft) {
+        offsetX = document.documentElement.scrollLeft;
+        offsetY = document.documentElement.scrollTop;
+      } else if(document.body) {
+        offsetX = document.body.scrollLeft;
+        offsetY = document.body.scrollTop;
+      }
+      x = evt.clientX + offsetX;
+      y = evt.clientY + offsetY;
+    }
+    var style = 'left:' + (x-10) + 'px; top:' + (y-10) + 'px';
+    var box = document.getElementById('info');
+    box.setAttribute('style',style);
+ }
+</script>
+</body>
