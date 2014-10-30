@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+
+  </style>
+
+
+</head>
+<body>
+<img src="" value='1' name='one'>
+<img src="" value='2'>
+<img src="" value='3'>
+<a href="" name='one'></a>
+<a href=""></a>
+<a href=""></a>
+<div id='one'>
+  <div id='two'>
+    <div id='three'>
+      <li id='li'></li>
+      <li></li>
+      <li></li>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+   var img = document.images;
+   var link = document.links;
+   var cook = document.cookie;
+   var divone = document.getElementById('one');
+   var divthree= document.getElementById('three');
+   console.log(divone.parentNode,divone.childNodes);
+   console.log(divthree.parentNode,divthree.childNodes);
+   if(divthree.hasChildNodes()) {
+    var children = divthree.childNodes;
+    for(var i = 0; i < children.length; ++i) {
+      console.log(' has child ' + children[i].nodeName);
+    }
+   }
+</script>
+</body>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+
+  </style>
+
+
+</head>
+<body>
+<div><p>1</p><p>2</p><p>3</p><p>4</p></div>
+<div><p>1</p><p>2</p><p>3</p><p>4</p></div>
+<script type="text/javascript">
+  var paras = document.querySelectorAll('div p:first-of-type');
+  for(var i = 0; i < paras.length; ++i) {
+    paras[i].setAttribute('style','background-color:#ff0');
+  }
+
+  var divs = document.querySelectorAll('div');
+  for(var j = 0; j < divs.length; ++j) {
+    var ps = divs.item(j).getElementsByTagName('p');
+    if(ps.length > 1) {
+      ps[1].setAttribute('style','background-color:pink')
+    }
+  }
+</script>
+</body>
