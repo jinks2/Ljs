@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+ img{
+  padding: 5px;
+ }
+ #outer{
+  width: 100%;
+  height: 100%;
+ }
+ .overlay{
+  background-color: #000;
+  opacity: 0.7;
+  filter:alpha(opacity=70);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+ }
+ .overlaying{
+  position: absolute;
+  z-index: 11;
+  left: 50px;
+  top: 50px;
+ }
+</style>
+</head>
+<body>
+
+  <div id='outer'>
+    <p>Mouse click on image to expand the photo. To close expanded photo, mouse click on image.</p>
+    <img src="1.png" data-larger='1l.png'>
+    <img src="2.png" data-larger='2l.png'>
+    <img src="3.png" data-larger='3l.png'>
+    <img src="4.png" data-larger='4l.png'>
+    <img src="5.png" data-larger='5l.png'>
+  </div>
+<script type="text/javascript">
+ window.onload = function() {
+  var imgs = document.getElementsByTagName('img');
+  imgs[0].focus();
+  for(var i = 0; i < imgs.length; ++i) {
+    imgs[i].onclick = expandPhoto;
+    imgs[i].onkeydown = expandPhoto;
+  }
+ }
+ function expandPhoto() {
+  var overlay = document.createElement("div");
+  overlay.setAttribute('id','overlay');
+  overlay.setAttribute('class','overlay');
+  document.body.appendChild(overlay);
+
+  var img = document.createElement('img');
+  img.setAttribute('id','img');
+  img.src = this.getAttribute('data-larger');
+  img.setAttribute('class','overlaying');
+
+  img.onclick = restore;
+  document.body.appendChild(img);
+ }
+ function restore() {
+   document.body.removeChild(document.getElementById('overlay'));
+   document.body.removeChild(document.getElementById('img'));
+ }
+ 
+</script>
+</body>

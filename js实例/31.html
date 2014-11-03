@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+    [role='alert'] {
+    	background-color: #fcc;
+    	font-weight: bold;
+    	padding: 5px;
+    	border: 1px dashed #000;
+    }
+    div{
+    	margin: 10px 0;
+    	padding: 5px;
+    	width: 400px;
+    	background-color: #fff;
+    }
+</style>
+</head>
+<body>
+<form id='testform'>
+	<div>
+		<label for='firstfield'>*First Field: </label><br/>
+		<input type='text' id='firstfield' aria-required='true'/>	
+    </div>
+    <div>
+		<label for='secondfield'>Second Field: </label><br/>
+		<input type='text' id='secondfield'/>	
+    </div>
+    <div>
+		<label for='thirdfield'>*Third Field(numeric): </label><br/>
+		<input type='text' id='thirdfield' aria-required='true'/>	
+    </div>
+    <div>
+		<label for='forthfield'>Forth Field: </label><br/>
+		<input type='text' id='forthfield'/>	
+    </div>
+    <button>Send Data</button>
+</form>
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById('thirdfield').onchange = validateField;
+		document.getElementById('firstfield').onblur = mandatoryField;
+		document.getElementById('testform').onsubmit = finalCheck;
+	}
+	function removeAlert() {
+		var msg = document.getElementById('msg');
+		if(msg) {
+			document.body.removeChild(msg);
+		}
+	}
+	function resetFiled(elem) {
+		elem.parentNode.setAttribute('style','background-color:#fff');
+		var valid = elem.getAttribute('aria-required');
+		if(valid) elem.removeAttribute('aria-required');
+	}
+	function badFiled(elem) {
+		elem.parentNode.setAttribute('style','background-color:#fee');
+		elem.setAttribute('aria-required','true');
+	}	
+	function generateAlert(txt) {
+		var txtNd = document.createTextNode(txt);
+		msg = document.createElement('div');
+		msg.setAttribute('role','alert');
+		msg.setAttribute('id','msg');
+		msg.setAttribute('class','alert');
+
+		msg.appendChild(txtNd);
+		document.body.appendChild(msg);
+	}
+	function validateField() {
+		removeAlert();
+		if(!isNaN(parseFloat(this.value))) {
+			resetFiled(this);
+		} else {
+			badFiled(this);
+			generateAlert('You entered an invalid value in Third Filed, only numeric values are allowed');
+		}
+	}
+	function mandatoryField() {
+		removeAlert();
+		if(this.value.length > 0) {
+			resetFiled(this);
+		} else {
+			badFiled(this);
+			generateAlert('You must enter a value into first filed');
+		}
+	}
+	function finalCheck() {
+		removeAlert();
+		var fileds = document.querySelectorAll("[aria-required='true']");
+		if(fileds.length > 0) {
+			generateAlert('You have incorrect fiedls enteries that must be fixed before you can submit this form');
+			return false;
+		}
+	}
+</script>
+</body>

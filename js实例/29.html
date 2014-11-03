@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+.tabcontainer{
+  padding: 5px;
+  width: 500px;
+  margin: 20px;
+}
+.tabnavigation ul{
+  padding: 0;
+  margin: 0;
+  display: none;
+}
+.tabnavigation ul li {
+  padding: 3px;
+  display: inline;
+  border:1px solid #000;
+  background-color: #fff;
+}
+.tabnavigation ul li:hover{
+  cursor: pointer;
+}
+.tabpages{
+  position: relative;
+  z-index: 2;
+  border:1px solid #000;
+  background-color: #fff;
+}
+.tabpage{
+  margin: 0 10px;
+}
+</style>
+</head>
+<body>
+<div class='tabcontainer'>
+  <div class='tabnavigation'>
+    <ul>
+      <li id='tabnav_1'>Page One</li>
+      <li id='tabnav_2'>Page Two</li>
+      <li id='tabnav_3'>Page Three</li>
+    </ul> 
+  </div>
+  <div class='tabpages'>
+    <div class='tabpage' id='tabpage_1'>
+      <p>page 1</p>
+    </div>
+    <div class='tabpage' id='tabpage_2'>
+      <p>page 2</p>
+    </div>
+    <div class='tabpage' id='tabpage_3'>
+      <p>page 3</p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  window.onload = function () {
+
+      var nav = document.querySelector('.tabnavigation ul');
+      nav.style.display = 'block';
+
+      var navitem = document.querySelector('.tabnavigation ul li');
+      var ident = navitem.id.split('_')[1];
+      navitem.parentNode.setAttribute('data-current',ident);
+      navitem.setAttribute('style','background-color:#f00');
+
+      var pages = document.querySelectorAll('.tabpage');
+      for(var i = 1; i < pages.length; ++i) {
+        pages[i].style.display = 'none';
+      }
+      var tabs = document.querySelectorAll('.tabnavigation ul li');
+      for(var j = 0; j < tabs.length; ++j) {
+        tabs[j].onclick = displayPage;
+    }
+  }
+  function displayPage() {
+    var current = this.parentNode.getAttribute('data-current');
+    document.getElementById('tabnav_' + current).setAttribute('style','background-color:#fff');
+    document.getElementById('tabpage_' + current).style.display = 'none';
+
+    var ident = this.id.split('_')[1];
+    this.setAttribute('style','background-color:#f00');
+    document.getElementById('tabpage_' + ident).style.display = 'block';
+    this.parentNode.setAttribute('data-current',ident);
+  }
+</script>
+</body>
