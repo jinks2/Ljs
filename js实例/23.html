@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+   #elem{
+    width: 200px;
+    background-color: lime;
+   }
+  </style>
+</head>
+<body>
+<div id='elem' style='color:purple'>testing</div>
+<script type="text/javascript">
+   window.onload = function() {
+    var elem = document.getElementById('elem');
+    var color = getStyle(elem,'backgroundColor','background-color');
+    alert(color);
+
+    elem.style.width = '500px';
+    elem.style.backgroundColor = 'yellow';
+
+    elem.style['fontEmaily'] = 'Courier';
+
+    var style = elem.getAttribute('style');
+    alert(style);
+
+    elem.setAttribute('style','height:100px');
+    var style = elem.getAttribute('style');
+    alert(style);
+
+    var font = getStyle(elem,'fontEmaily','font-family');
+    alert(font)
+
+   }
+   function getStyle(elem,cssprop,cssprop2) {
+    //IE
+    if(elem.currentStyle) {
+      return elem.currentStyle[cssprop];
+   //other
+    } else if(document.defaultView && document.defaultView.getComputedStyle) {
+      return document.defaultView.getComputedStyle(elem,null).getPropertyValue(cssprop2);
+    }
+   }
+  
+</script>
+</body>

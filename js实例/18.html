@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+    .divclass{
+    	background-color: pink;
+    }
+  </style>
+
+
+</head>
+<body>
+
+ <div id='div1'>
+ 	<p>click me to add new element</p>
+ </div>
+ <div id='div2'>
+ 	<p>text1</p>
+ 	<p>text2</p>
+ </div>
+<script type="text/javascript">
+ window.onload = function() {
+ 	document.getElementById('div1').onclick = addDiv;
+ 	document.getElementById('div2').onclick = addtext;
+ }
+ function addDiv() {
+ 	var parent = this.parentNode;
+ 	var newDiv = document.createElement('div');
+ 	var newDiv1 = newDiv;
+ 	newDiv.className = 'divclass';
+ 	newDiv.innerHTML = '<p>this is a new div</p>';
+ 	this.appendChild(newDiv);
+ 	parent.insertBefore(newDiv,this); //this not work
+ }
+ function addtext() {
+ 	var div = document.getElementById('div2');
+ 	var txt = prompt('new text: ','');
+ 	var p = div.getElementsByTagName('p')[0];
+    var text = document.createTextNode(txt);
+    var para = document.createElement('p');
+    para.appendChild(text);
+    div.insertBefore(para,p);
+    var p1 = div.getElementsByTagName('p')[1];
+    var para = document.createElement('p');
+    para.appendChild(text);
+    div.insertBefore(para,p);
+ }
+  
+
+</script>
+</body>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+    #elem1{
+      height: 200px;
+      background-color: pink;
+    }
+    #elem2{
+      height: 200px;
+      padding: 10px;
+      background-color: lime;
+    }
+  </style>
+</head>
+<body>
+  <div id='elem1'></div>
+  <div id='elem2'></div>
+<script type="text/javascript">
+ var height1,height2;
+ var rect1 = document.getElementById('elem1').getBoundingClientRect();
+ var rect2 = document.getElementById('elem2').getBoundingClientRect();
+ height1 = rect1.height;
+ height2 = rect2.height;
+
+ alert(height1 + ' ' + height2);
+ 
+</script>
+</body>

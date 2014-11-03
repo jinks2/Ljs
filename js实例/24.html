@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+
+  </style>
+</head>
+<body>
+
+<script type="text/javascript">
+  function size() {
+    var wdth = 0;
+    var hth = 0;
+    if(!window.innerWidth) { //IE
+      wdth = (document.documentElement.clientWidth ?  
+               document.documentElement.clientWidth :
+               document.body.clientWidth);
+      hth = (document.documentElement.clientHeight ?
+             document.documentElement.clientHeight :
+             document.body.clientHeight);
+    } else {   //other
+      wdth = window.innerWidth;
+      hth = window.innerHeight;
+    }
+    console.log('width: ' + wdth + '; height: ' + hth);
+  }
+  size();
+</script>
+</body>

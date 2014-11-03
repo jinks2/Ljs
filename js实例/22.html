@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <style type="text/css">
+   table{
+    border-collapse: collapse;
+   }
+   td,th{
+    padding: 5px;
+    border:1px solid #ccc;
+   }
+   tr:nth-child(2n+1) {
+    background-color: #efe;
+   }
+  </style>
+
+
+</head>
+<body>
+<table>
+  <thead>Sum Table Column</thead>
+  <tr><th>Value one</th><th>Value two</th><th>Value three</th></tr>
+</table>
+<script type="text/javascript">
+window.onload = function() {
+  var values = new Array(3);
+  values[0] = [123.45,'apple',true];
+  values[1] = [65,'banana',false];
+  values[2] = [1034.99,'cherry',false];
+  var mixed = document.querySelector('table');
+  var tbody = document.createElement('tbody');
+  for(var i = 0; i < values.length; ++i) {
+    var tr = document.createElement('tr');
+    for(var j = 0; j < values[i].length; ++j) {
+      var td = document.createElement('td');
+      var txt = document.createTextNode(values[i][j]);
+      td.appendChild(txt);
+      tr.appendChild(td);
+    }
+    tr.onclick = purne;
+    tbody.appendChild(tr);
+  }
+    mixed.appendChild(tbody);
+}
+function purne() {
+  var parent = this.parentNode;
+  var oldRow = parent.removeChild(this);
+  var dataString = '';
+  for(var i = 0 ; i < oldRow.childNodes.length; ++i) {
+    var cell = oldRow.childNodes[i];
+    dataString += cell.firstChild.data + ",";
+  } 
+  alert('removed: ' + dataString);
+}
+  
+</script>
+</body>
