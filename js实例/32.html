@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+ img{
+  padding: 5px;
+ }
+ #outer{
+  width: 100%;
+  height: 100%;
+ }
+ .overlay{
+  background-color: #000;
+  opacity: 0.7;
+  filter:alpha(opacity=70);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+ }
+ .overlaying{
+  position: absolute;
+  z-index: 11;
+  left: 50px;
+  top: 50px;
+ }
+</style>
+</head>
+<body>
+
+  <div id='outer'>
+    <p>Mouse click on image or use keyboard to move photo.</p>
+    <a href="1.png" data-item='0'><img src="1.png" data-larger='1l.png'></a>
+    <a href="2.png" data-item='1'><img src="2.png" data-larger='2l.png'></a>
+    <a href="3.png" data-item='2'><img src="3.png" data-larger='3l.png'></a>
+    <a href="4.png" data-item='3'><img src="4.png" data-larger='4l.png'></a>
+    <a href="5.png" data-item='4'><img src="5.png" data-larger='5l.png'></a>
+  </div>
+<script type="text/javascript">
+ window.onload = function() {
+  var aimgs = document.getElementsByTagName('a');
+  aimgs[0].focus();
+  for(var i = 0; i < aimgs.length; ++i) {
+    aimgs[i].onclick = imgClick;
+  }
+ }
+ function expandPhoto(src) {
+  var overlay = document.createElement("div");
+  overlay.setAttribute('id','overlay');
+  overlay.setAttribute('class','overlay');
+  document.body.appendChild(overlay);
+
+  var img = document.createElement('img');
+  img.setAttribute('id','img');
+  img.src = src;
+  img.setAttribute('tabindex','-1');
+  img.setAttribute('class','overlaying');
+
+  img.onclick = restore;
+  img.onkeydown = imgKeyDown;
+  document.body.appendChild(img);
+  img.focus();//聚焦
+ }
+ function restore() {
+   document.body.removeChild(document.getElementById('overlay'));
+   document.body.removeChild(document.getElementById('img'));
+ }
+ function imgClick() {  //focus聚焦后,enter点击相当于onclick
+  var img = this.firstChild;
+  expandPhoto(img.getAttribute('data-larger'));
+  return false;
+ }
+ function imgKeyDown(evnt) {
+    evnt = evnt || window.event;
+    var keycode =  evnt.keyCode || evnt.which;
+    if(document.getElementById('overlay')) {
+      if(keycode === 27) { //esc
+        restore();
+        document.getElementsByTagName('a')[0].focus();
+        return false;
+      }
+    } else {
+      if(keycode === 13) {
+        console.log(this);
+        var img = this.firstChild;
+        var src = img.getAttribute('data-larger');
+        expandPhoto(src);
+        return false;
+      }
+    }
+ }
+ 
+</script>
+</body>

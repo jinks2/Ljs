@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<h1>Tune</h1>
+<div id='song'></div>
+<script type="text/javascript">
+  function Tune(song,artist) {
+    this.title = song;
+    this.artist = artist;
+    this.concat = function() {
+      return this.title + '-' + this.artist;
+    }
+  }
+  window.onload = function() {
+    happySong = new Tune('Putting on the Ritz','Ella Fitzgerald');
+    Tune.prototype.addCategory = function(categoryName) {
+      this.category = categoryName;
+    }
+    happySong.addCategory('Swing');
+
+    var song = 'Title and artist: ' + happySong.concat() + ' Category: ' + happySong.category;
+    var p = document.createElement('p');
+    var txt = document.createTextNode(song);
+    p.appendChild(txt);
+    document.getElementById('song').appendChild(p);
+  }
+</script>
+</body>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+<div class='tabcontainer' role='tablist'>
+  <div class='tabnavigation' role='tab'>
+    <ul>
+      <li id='tabnav_1' role='tab'><a href="#">Page One</a></li>
+      <li id='tabnav_2' role='tab'><a href="#">Page Two</a></li>
+      <li id='tabnav_3' role='tab'><a href="#">Page Three</a></li>
+    </ul>
+  </div>
+  <div class='tabpages'>
+    <div class='tabpage' role='tabpanel' aria-labeledby='tabnav_1' aria-hidden='false' id='tabpage_1'>
+      <p>page 1</p>
+    </div>
+    <div class='tabpage' role='tabpanel' aria-labeledby='tabnav_2' aria-hidden='false' id='tabpage_2'>
+      <p>page 2</p>
+    </div>
+    <div class='tabpage' role='tabpanel' aria-labeledby='tabnav_3' aria-hidden='false' id='tabpage_3'>
+      <p>page 3</p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+window.onload = function() {
+  var containers = document.querySelectorAll('.tabcontainer');
+  for(var j = 0; j < containers.length; ++j) {
+    var nav = containers[j].querySelector('.tabnavigation ul');
+    nav.style.display = 'block';
+
+    var navitem = containers[j].querySelector('.tabnavigation ul li');
+    var ident = navitem.id.split('_')[1];
+    navitem.parentNode.setAttribute('data-current',ident);
+    navitem.setAttribute('style','background-color:#ccf');
+
+    var pages = containers[j].querySelectorAll('.tabpage');
+    for(var i = 1; i < pages.length; ++i) {
+      pages[i].style.display = 'none';
+      pages[i].setAttribute('aria-hidden','true');
+    }
+
+    var tabs = containers[j].querySelectorAll('.tabnavigation ul li');
+    for(var i = 0; i < tabs.length; ++i) {
+      tabs[i].onclick = displayPage;
+    }
+  }
+}
+function displayPage() {
+  var current = this.parentNode.getAttribute('data-current');
+  var oldpanel = document.getElementById('tabpage_' + current);
+  document.getElementById('tabnav_' + current).setAttribute('style','background-color:#fff');
+  oldpanel.style.display = 'none';
+  oldpanel.setAttribute('aria-hidden','true');
+
+  var ident = this.id.split('_')[1];
+  this.setAttribute('style','background-color:#ccf');
+  var newpanel = document.getElementById('tabpage_' + ident);
+
+  newpanel.style.display = 'block';
+  newpanel.setAttribute('aria-hidden','false');
+  this.parentNode.setAttribute('data-current',ident);
+  return false;
+}
+</script>
+</body>
