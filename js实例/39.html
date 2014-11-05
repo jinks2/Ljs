@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<script type="text/javascript">
+function Book(title,author) {
+  var title  = title;
+  var author = author;
+  this.getTitle = function() {
+    return 'Title: ' + title;
+  }
+  this.getAuthor = function() {
+    return 'Author ' + author;
+  }
+}
+function TechBook(title,author,category) {
+  var category = category;
+  this.getCategory = function() {
+    return 'Technical Category: ' + category;
+  }
+  this.getBook = function() {
+    return this.getTitle() + ' ' + author + ' ' + this.getCategory();
+  }
+}
+
+TechBook.prototype = new Book();
+
+var newBook = new TechBook('The Javascript cookbook','Shelley Powers','Programming');
+
+var str = '';
+for(var prop in newBook) {
+  str += prop + ' ';
+}
+
+console.log(newBook,str,Object.keys(newBook).join(' '));
+
+Object.defineProperty(newBook,'title',{
+  writable: true,
+  enumerable: false,
+  configurable: true
+});
+
+var str = '';
+for(var prop in newBook) {
+  str += prop + ' ';
+}
+
+console.log(newBook,str,Object.keys(newBook),Object.getOwnPropertyNames(newBook));
+
+
+Object.defineProperty(newBook,'getTitle',{
+  writable: true,
+  enumerable: false,
+  configurable: true
+});
+
+var str = '';
+for(var prop in newBook) {
+  str += prop + ' ';
+}
+console.log(newBook,str,Object.keys(newBook),Object.getOwnPropertyNames(newBook));
+</script>
+</body>

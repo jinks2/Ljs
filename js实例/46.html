@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+
+</style>
+</head>
+<button id='next' data-page='zero'>Next Action</button>
+<div id='square' class='zero'>
+  <p>This is the object</p>
+</div>
+<body>
+
+<script type="text/javascript">
+  window.onload = function() {
+    document.getElementById('next').onclick = nextPanel;
+  }
+  window.onpopstate = function(evt) {
+    if(!evt.state) return;
+    var page = evt.state.page;
+    switch(page) {
+      case 'one':
+        functionOne();
+        break;
+      case 'two':
+        functionOne();
+        functionTwo();
+        break;
+      case 'three':
+        functionOne();
+        functionTwo();
+        functionThree();
+    }
+  }
+  function nextPanel() {
+    var page = document.getElementById('next').getAttribute('data-page');
+    switch(page) {
+      case  'zero':
+        functionOne();
+        break;
+      case 'one':
+        functionTwo();
+        break;
+      case 'two':
+        functionThree();
+    }
+  }
+  function setPage(page) {
+    document.getElementById('next').setAttribute('data-page',page);
+    window.history.pushState({page: page},'Page ' + page, '?page=' + page);
+  }
+  function functionOne() {
+    var square = document.getElementById('square');
+    square.style.position = 'relative';
+    square.style.left = 0;
+    square.style.backgroundColor = '#f00';
+    square.style.width = '200px';
+    square.style.height = '200px';
+    square.style.padding = '10px';
+    square.style.margin = '20px';
+    setPage('one');
+  }
+  function functionTwo() {
+    var square = document.getElementById('square');
+    square.style.position = 'absolute';
+    square.style.left = '200px';
+    square.style.backgroundColor = '#ff0';
+    setPage('two');
+  }
+  function functionThree() {
+    var square = document.getElementById('square');
+    square.style.left = '400px';
+    square.style.backgroundColor = '#0f0';
+    square.style.width = '400px';
+    square.style.height = '400px';
+    setPage('three');
+  }
+</script>
+</body>

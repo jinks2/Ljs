@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<script type="text/javascript">
+  'use strict'
+var Test1 = {
+  value1: 'one',
+  value2: function() {
+    return this.value1;
+  }
+}
+var Test2 = {
+  value1: 'one',
+  value2: function() {
+    return this.value1;
+  }
+}
+var Test3 = {
+  value1: 'one',
+  value2: function() {
+    return this.value1;
+  }
+}
+try {
+  Object.preventExtensions(Test1);
+  Test1.value3 = 'test';
+} catch(e) {
+  alert(e);
+}
+
+
+try{
+  Object.seal(Test2);
+  Test2.value3 = 'test';
+} catch(e) {
+  alert(e);
+}
+
+try {
+  Object.defineProperty(Test2,'value1', {
+    enumerable: false
+  })
+} catch(e) {
+  alert(e);
+}
+
+
+try{
+  Object.freeze(Test3);
+  Test3.value3 = 'test';
+} catch(e) {
+  alert(e);
+}
+
+try {
+  Object.defineProperty(Test3,'value1', {
+    enumerable: false
+  })
+} catch(e) {
+  alert(e);
+}
+
+try {
+  Test3.value1 = 'change';
+} catch(e) {
+  alert(e);
+}
+
+
+console.log(Object.isSealed(Test2),Object.isFrozen(Test3));
+
+</script>
+</body>

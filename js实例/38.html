@@ -29,10 +29,35 @@ function TechBook(title,author,category) {
   }
 }
 window.onload = function() {
-  TechBook.prototype = new Book();
+  //TechBook.prototype = new Book();
+  try{
+    var newBook1 = new TechBook('The Javascript Cookbook','Shelley Powers','Programming');
+    var newBook2 = new TechBook('The Javascript Cookbook','Shelley Powers','Programming');
+    var newBook3 = new TechBook('The Javascript Cookbook','Shelley Powers','Programming');
+    Object.defineProperty(newBook1,'experience',{
+      get: function() {return category},
+      set: function(val) {category = val},
+      enumerable: false,
+      configurable: true
+    });
 
-  var newBook = new TechBook('The Javascript Cookbook','Shelley Powers','Programming');
-  console.log(newBook);
+    Object.defineProperties(newBook2,{
+      'stock':{
+      value: true,
+      writable: true,
+      enumerable: true
+    },
+    'age':{
+      value: '13 and up',
+      writable: false
+    }
+    });
+    console.log(newBook1,newBook2,newBook3);
+
+  } catch(e) {
+    alert(e);
+  }
+  
 }
 
 

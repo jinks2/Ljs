@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+div{
+  margin: 5px;
+}
+</style>
+</head>
+
+<body>
+<form>
+  <label for='cookie'>Enter cookie:</label>
+  <input type='text' id='cookie'/><br/>
+  <label for='value'>Cookie Value:</label>
+  <input type='text' id='value' /><br/>  
+</form>
+<div>
+  <button id='set'>Set Cookie</button>
+  <button id='get'>Get Cookie</button>
+  <button id='erase'>Erase Cookie</button>
+</div>
+<script type="text/javascript">
+  window.onload = function() {
+    if (navigator.cookieEnabled) {
+    document.getElementById('set').onclick = setCookie;
+    document.getElementById('get').onclick = getCookie;
+    document.getElementById('erase').onclick = eraseCookie;
+    }
+  }
+  function setCookie() {
+    var cookie = document.getElementById('cookie').value;
+    var value = document.getElementById('value').value;
+
+    var futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 10);
+
+    var tmp = cookie + '=' + encodeURI(value) + '; expires=' + futureDate.toGMTString() + '; path=/';
+    document.cookie = tmp;
+
+  }
+  function getCookie() {
+    var key = document.getElementById('cookie').value;
+    var cookie = document.cookie;
+    var first = cookie.indexOf(key + '=');
+
+    if(first >= 0) {
+      var str = cookie.substring(first,cookie.length);
+      var last = str.indexOf(';');
+
+      if(last < 0) last = str.length;
+
+      str = str.substring(0,last).split('=');
+      alert(decodeURI(str[1]));
+    } else {
+      alert('none find');
+    }
+  }
+  function eraseCookie() {
+    var key = document.getElementById('cookie').value;
+
+    var cookieDate = new Date();
+    cookieDate.setDate(cookieDate.getDate() - 10);
+    document.cookie = key + '=; expires=' + cookieDate.toGMTString() + '; path=/';
+  }
+</script>
+</body>
