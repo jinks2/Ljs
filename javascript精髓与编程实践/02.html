@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+
+function MyObject () {};
+
+console.log(MyObject.prototype.constructor == MyObject);
+
+delete MyObject.prototype.constructor;
+
+console.log(MyObject.prototype.constructor == Object);
+console.log(MyObject.prototype.constructor == new Object().constructor);
+
+/*------------------------*/
+
+function MyObject() {
+
+}
+function MyObjectEx() {
+
+}
+proto = new MyObject();
+MyObjectEx.prototype = proto;
+
+
+//修改construct
+/*-----------方法1-------------*/
+
+MyObjectEx.prototype = new MyObject();
+MyObjectEx.prototype.constructor = MyObjectEx;
+
+var obj1 = new MyObject();
+var obj2 = new MyObjectEx();
+console.log(obj1.constructor === obj2.constructor);
+
+/*-----------方法2-------------*/
+function MyObjectEx() {
+	this.constructor = arguments.callee;
+}
+
+var obj1 = new MyObject();
+var obj2 = new MyObjectEx();
+console.log(obj1.constructor === obj2.constructor);
+
+
+function Animal() {};
+function Mammal() {};
+function Canine() {};
+function Dog() {};
+function Cat() {};
+
+Mammal.prototype = new Animal();
+Canine.prototype = new Mammal();
+Dog.prototype = new Canine();
+Cat.prototype = new Mammal();
+
+function isAnimal(obj) {
+	return obj instanceof Animal;
+}
+
+var dog = new Dog();
+var cat = new Cat();
+console.log(isAnimal(dog));
+
+
+Animal.prototype.respire = function() {
+
+}
+console.log('respire' in cat);
+console.log('respire' in dog);
+	</script>
+
+
+
+
+
+</body>
+</html>

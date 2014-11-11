@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+function MyFunction() {
+
+}
+MyFunction.prototype = new Function();
+myFunc = new MyFunction();
+console.log(myFunc instanceof Function);
+console.log(myFunc instanceof MyFunction);
+
+
+var obj1 = {a:'a'}
+Object.defineProperty(obj1,'aa',{
+	value: 'aa'
+});
+console.log(Object.getOwnPropertyDescriptor(obj1,'a'));
+console.log(Object.getOwnPropertyDescriptor(obj1,'aa'));
+
+
+var a = {name1: 'value1'};
+
+var b = Object.create(a,{
+	name2:{value:'value2'},
+	name3:{get:function() {}}
+})
+console.log(b);
+
+/*
+function aCreator(proto, props) {
+	if(!(prop instanceof Object)) throw TypeError
+	var obj,_proto_ = Object.prototype;
+	try{
+		Object.prototype = proto;
+		obj = new Object();
+	}
+	finally {
+		Object.prototype = _proto_;
+	}
+	Object.defineProperties(obj,props);
+	return obj;
+}
+
+*/
+Object.forIn = function(obj) {
+	var reuslt = [];
+	for(var n in obj) reuslt.push(n);
+		return reuslt;
+}
+
+var obj1 = {n1: 100};
+var obj2 = Object.create(obj1, {n2: {value: 200, enumerable: true} });
+
+
+console.log(Object.forIn(obj2),Object.keys(obj2));
+
+Object.defineProperty(obj2,'n3',{value: 300});
+console.log(Object.forIn(obj2),Object.keys(obj2),Object.getOwnPropertyNames(obj2));
+
+
+var pOld, pNew;
+var obj = {data: 'oldValue'};
+
+pOld = Object.getOwnPropertyDescriptor(obj,'data');
+console.log(Object.keys(pOld));
+
+Object.defineProperty(obj,'data', function(oldValue) {
+	return {
+		get: function() {return oldValue},
+		configurable: false
+	}
+}(obj.data));
+
+pNew = Object.getOwnPropertyDescriptor(obj,'data');
+console.log(Object.keys(pNew));
+
+console.log(obj.data);
+
+//Object.defineProperty(obj,'data',{value: 100});
+
+/**/
+var obj1 = {n1: 100};
+var obj2 = Object.create(obj1);
+
+Object.defineProperty(obj,'n1',{enumerable: false});
+console.log(Object.keys(obj1));
+
+console.log(Object.getOwnPropertyNames(obj2));
+
+obj2.n1 = 'newVlaue';
+console.log(Object.getOwnPropertyNames(obj2));
+/**/
+
+var obj1 = {n1: 100};
+var obj2 = Object.create(obj1);
+
+Object.defineProperty(obj1,'n1',{
+	writable: false, enumerable: false, configurable: false
+});
+console.log(Object.keys(obj1));
+
+Object.defineProperty(obj2,'n1',{value:obj2.n1,writable:true,enumerable:true,configurable:true});
+
+obj2.n1 = 'newVlaue';
+console.log(obj2.n1,obj1.n1);
+
+console.log(Object.getOwnPropertyNames(obj2));
+delete obj2.n1;
+console.log(obj2.n1,obj1.n1);
+
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+var set,get;
+function MyFunc() {
+	var value = 100;
+	function set_value(v) {
+		value = v;
+	}
+	function get_value() {
+		return value;
+	}
+	get = get_value;
+	set = set_value;
+}
+MyFunc();
+console.log(get());
+
+/**/
+function MyObject() {
+	var value = 100;
+	this.setValue = function(v) {
+		value = v;
+	}
+	this.showValue = function() {
+		console.log(value);
+	}
+}
+var obj1 = new MyObject(),
+	obj2 = new MyObject();
+
+obj2.setValue(300);
+obj1.showValue();
+obj2.showValue();
+/**/
+
+var i = 100;
+
+do {
+	//do something
+	i--;
+}while(i > 0);
+
+/**/
+function foo(i) {
+	//do something
+	if( --i > 0) foo(i);
+}
+foo(i);
+/*better*/
+
+void function(i) {
+	//do something
+	(--i > 0) && arguments.callee(i);
+}(i);
+
+/**/
+var i = 100,j=10;
+//alert(i += 20, j *= 2, 'value :' + i);
+//alert(j);
+
+
+/**/
+function MyFunc1() {
+	var data = 100;
+	function func1() {
+		data *= 5;
+	}
+	function funcn() {
+		console.log(data);
+	}
+}
+
+
+/**/
+
+function myFunc2() {
+
+};
+var f1 = myFunc2;
+var f2 = myFunc2;
+
+console.log(f1 === f2); //true
+
+function MyObject1() {
+	function func() {
+
+	}
+	this.doFunc = func;
+}
+
+var obj1 = new MyObject1;
+var obj2 = new MyObject1;
+
+console.log(obj2 === obj1); //false
+console.log(obj2.doFunc === obj1.doFunc); //false
+console.log(obj2.toString() == obj1.toString());  //true
+
+/**/
+function MyObject_1() {
+	var instance_data = 100;
+	this.getInstanceData = function() {
+		return instance_data;
+	}
+	this.setInstanceData = function(v) {
+		instance_data = v;
+	}
+}
+
+void function() {
+	var class_data = 5;
+	this.getClassData = function() {
+		return class_data;
+	}
+	this.setClassData = function(v) {
+		class_data = v;
+	}
+}.call(MyObject_1.prototype);
+
+var obj1 = new MyObject_1;
+var obj2 = new MyObject_1;
+
+obj1.setInstanceData(10);
+console.log(obj2.getInstanceData());
+
+obj1.setClassData(20);
+console.log(obj2.getClassData());
+
+/**/
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

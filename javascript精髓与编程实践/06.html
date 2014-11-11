@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+  function MyObject(obj) {
+  	var foo = function() {};
+  	if(!obj) return;
+  	obj.method = foo;
+  }
+  //1
+ MyObject();
+  //2
+ MyObject(new Object);
+  //3
+ var obj = new Object;
+ MyObject(obj);
+
+
+ /**/
+ var checker;
+ function myFunc() {
+ 	if(checker) {
+ 		checker();
+ 	}
+ 	console.log('do myFunc: ' + str);
+ 	var str = 'test.';
+
+ 	if(!checker) {
+ 		checker = function() {
+ 			console.log('do check: ' + str);
+ 		}
+ 	}
+ 	return arguments.callee;
+ }
+ myFunc()();
+
+ /**/
+var obj = new Object;
+for(var i = 0 ; i < 5 ; ++i) {
+	obj['method' + i] = function() {
+
+	}
+}
+console.log(obj.method2 === obj.method3); //false;
+/**/
+
+ var obj1 = new Object;
+ var events = {m1: 'clicked', m2: 'changed'};
+
+ for(e in events) {
+ 	obj1[e] = function() {
+ 		console.log(e,events,events[e]);
+ 	}
+ }
+
+ console.log(obj1.m1 === obj1.m2);  //false;
+
+ obj1.m1();
+ obj1.m2();
+
+
+ /**/
+ var obj2 = new Object;
+ var events = {m1: 'clicked', m2: 'changed'};
+
+ for(e in events) {
+ 	obj2[e] = function(aValue) { //闭包1
+ 		return function() {  //闭包2
+ 			console.log(events[aValue]);
+ 		}
+ 	}(e)
+ }
+
+ obj2.m1();
+ obj2.m2();
+
+ /**/
+ var obj3 = new Object;
+ var events = {m1: 'clicked', m2: 'changed'};
+
+ for(e in events) {
+ 	(obj3[e] = function() {
+ 		console.log(events[arguments.callee.aValue]);
+ 	}).aValue = e;
+ }
+
+ obj3.m1();
+ obj3.m2();
+
+ /**/
+
+var name ='test';
+function myFunc_2() {
+	console.log(name);
+}
+var name = 100;
+console.log(name);
+
+/**/
+function foo(foo) {
+	var foo = foo + 1;
+	console.log(foo);
+}
+foo(100);
+
+
+/**/
+function foo(str) {
+	var str;
+	console.log(str);
+}
+foo('abc');
+
+/**/
+
+var value = 'this is global';
+function myFunc_3() {
+	var value = 'this is local';
+	var foo = new Function('console.log(value)');
+	foo();
+}
+myFunc_3(); //this is global 
+
+/**/
+var obf = new Object;
+var events = {m1: 'clicked', m2: 'changed'};
+for(e in events) {
+	obj[e] = new Function('console.log(events["'+e+'"])');
+}
+obj.m1();
+obj.m2();
+
+/**/
+function foo() {
+	var A = 100;
+	function foo_2() {
+		var A = 1000;
+		function foo_3() {
+			
+		}
+	}
+}
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+function MyObject () {
+	var data = 100;
+
+	function _run(v) {
+		console.log(v);
+	}
+
+	this.value = 'the data is ';
+
+	this.run = function() {
+		_run(this.value + data);
+	}
+}
+
+var obj = new MyObject();
+obj.run();
+/**/
+
+function Bird() {
+	var bird = arguments.length === 1 ? arguments[0] : this;
+	bird.wing = 2;
+	bird.tweet = function() {};
+	bird.fly = function() {
+		console.log('i can fly');
+	};
+	return bird;
+}
+
+var obj = new Object();
+var bird = Bird(obj);
+bird.fly();
+obj.fly();
+
+
+function doFly(bird) {
+	if(bird instanceof Bird) {
+		obj.fly();
+	} else {
+		console.log('bird is not instance');
+	}
+}
+doFly(new Bird());
+doFly(bird);
+/**/
+
+function Ostrich() {
+	this.fly = function() {
+		console.log('i can not fly');
+	}
+}
+Ostrich.prototype = new Bird();
+Ostrich.prototype.constructor = Ostrich;
+
+var ostrich = new Ostrich();
+doFly(ostrich);
+
+
+/*
+ 
+*/
+
+function MyObject1() {
+	this.name = 'jinks';
+}
+var obj1 = new MyObject1();
+
+console.log(obj1);
+
+
+
+function MyObject2() {
+	var name = 'jinks';
+	return {
+		name : name
+	}
+}
+MyObject2.prototype.age = '22';
+
+var obj2 = new MyObject2();
+console.log(obj2);
+
+function MyObject2_1(name) {
+	this.name = name;
+}
+function MyObject2_2() {
+	var name = 'jinks';
+	return new MyObject2_1(name);
+}
+MyObject2.prototype.age = '22';
+
+var obj2_1 = new MyObject2_2();
+console.log(obj2_1);
+
+
+function MyObject3() {
+
+}
+MyObject3.prototype.name = 'jinks';
+MyObject3.prototype.age = '22';
+var obj3 = new MyObject3();
+console.log(obj3)
+
+
+function MyObject4() {
+
+}
+MyObject4.prototype = {
+	name : 'jinks',
+	age : '22'
+}
+MyObject4.prototype.constructor = MyObject4;
+var obj4 = new MyObject4();
+console.log(obj4);
+
+
+/**/
+
+var extend = function(subClass,baseClass) {
+	subClass.baseConstructor = baseClass;  //子类构造器总指向父类构造器;
+	subClass.base = {};
+	baseClass.call(subClass.base);       //将父类构造器this引用方法抄入子类构造器base属性中
+}
+
+function Mouse() {};
+
+function Animal(name) {
+	this.name = name;
+	this.say = function(message) {
+		console.log(this.name + ": " + message);
+	}
+	this.eat = function() {
+		this.say('Yum!');
+	}
+}
+function Cat() {
+	Cat.baseConstructor.call(this,'cat');
+	this.eat = function(food) {
+		if(food instanceof Mouse) {
+			Cat.base.eat.call(this);  //调用构造器抄入的eat方法；
+		} else {
+			this.say('Yuk! i only eat mice - not ' + food.name);
+		}
+	}
+
+}
+extend(Cat,Animal);
+
+function Lion() {
+	Lion.baseConstructor.call(this,'lion');
+}
+extend(Lion,Cat);
+
+var cat = new Cat();
+var lion = new Lion();
+var mouse = new Mouse();
+var unknowObj = {};
+
+cat.eat(mouse);
+cat.eat(unknowObj);
+lion.eat(mouse);
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
